@@ -3,4 +3,4 @@
 SCRIPT=`realpath -s $0`
 SCRIPTPATH=`dirname $SCRIPT`
 
-python $SCRIPTPATH/nmap_conf_prober.py $@
+python $SCRIPTPATH/cve_searchsploit.py $@
