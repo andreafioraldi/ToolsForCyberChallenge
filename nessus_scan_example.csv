@@ -1,0 +1,2397 @@
+Plugin ID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,See Also,Plugin Output
+"10028","","","None","10.10.20.100","udp","53","DNS Server BIND version Directive Remote Version Detection","It is possible to obtain the version number of the remote DNS server.","The remote host is running BIND or another DNS server that reports its
+version number when it receives a special request for the text
+'version.bind' in the domain 'chaos'. 
+
+This version is not necessarily accurate and could even be forged, as
+some DNS servers send the information based on a configuration file.","It is possible to hide the version number of BIND by using the
+'version' directive in the 'options' section in named.conf.","","
+  Version : 9.4.2
+"
+"10092","","","None","10.10.20.100","tcp","2121","FTP Server Detection","An FTP server is listening on a remote port.","It is possible to obtain the banner of the remote FTP server by
+connecting to a remote port.","n/a","","
+The remote FTP banner is :
+
+220 ProFTPD 1.3.1 Server (Debian) [::ffff:10.10.20.100]
+"
+"10092","","","None","10.10.20.100","tcp","21","FTP Server Detection","An FTP server is listening on a remote port.","It is possible to obtain the banner of the remote FTP server by
+connecting to a remote port.","n/a","","
+The remote FTP banner is :
+
+220 (vsFTPd 2.3.4)
+"
+"10107","","","None","10.10.20.100","tcp","80","HTTP Server Type and Version","A web server is running on the remote host.","This plugin attempts to determine the type and the version of the
+remote web server.","n/a","","The remote web server type is :
+
+Apache/2.2.8 (Ubuntu) DAV/2
+
+You can set the directive 'ServerTokens Prod' to limit the information
+emanating from the server in its response headers."
+"10114","CVE-1999-0524","","None","10.10.20.100","icmp","0","ICMP Timestamp Request Remote Date Disclosure","It is possible to determine the exact time set on the remote host.","The remote host answers to an ICMP timestamp request.  This allows an
+attacker to know the date that is set on the targeted machine, which
+may assist an unauthenticated, remote attacker in defeating time-based
+authentication protocols.
+
+Timestamps returned from machines running Windows Vista / 7 / 2008 /
+2008 R2 are deliberately incorrect, but usually within 1000 seconds of
+the actual system time.","Filter out the ICMP timestamp requests (13), and the outgoing ICMP
+timestamp replies (14).","","The difference between the local and remote clocks is -56749 seconds.
+"
+"10150","","","None","10.10.20.100","udp","137","Windows NetBIOS / SMB Remote Host Information Disclosure","It was possible to obtain the network name of the remote host.","The remote host is listening on UDP port 137 or TCP port 445, and
+replies to NetBIOS nbtscan or SMB requests.
+
+Note that this plugin gathers information to be used in other plugins,
+but does not itself generate a report.","n/a","","The following 7 NetBIOS names have been gathered :
+
+ METASPLOITABLE   = Computer name
+ METASPLOITABLE   = Messenger Service
+ METASPLOITABLE   = File Server Service
+ __MSBROWSE__     = Master Browser
+ WORKGROUP        = Workgroup / Domain name
+ WORKGROUP        = Master Browser
+ WORKGROUP        = Browser Service Elections
+
+This SMB server seems to be a Samba server - its MAC address is NULL."
+"10203","CVE-1999-0618","10.0","Critical","10.10.20.100","tcp","512","rexecd Service Detection","The rexecd service is running on the remote host.","The rexecd service is running on the remote host. This service is
+design to allow users of a network to execute commands remotely.
+However, rexecd does not provide any good means of authentication, so
+it may be abused by an attacker to scan a third-party host.","Comment out the 'exec' line in /etc/inetd.conf and restart the inetd
+process.","",""
+"10205","CVE-1999-0651","7.5","High","10.10.20.100","tcp","513","rlogin Service Detection","The rlogin service is running on the remote host.","The rlogin service is running on the remote host. This service is
+vulnerable since data is passed between the rlogin client and server
+in cleartext. A man-in-the-middle attacker can exploit this to sniff
+logins and passwords. Also, it may allow poorly authenticated logins
+without passwords. If the host is vulnerable to TCP sequence number
+guessing (from any network) or IP spoofing (including ARP hijacking on
+a local network) then it may be possible to bypass authentication.
+Finally, rlogin is an easy way to turn file-write access into full
+logins through the .rhosts or rhosts.equiv files.","Comment out the 'login' line in /etc/inetd.conf and restart the inetd
+process. Alternatively, disable this service and use SSH instead.","",""
+"10223","CVE-1999-0632","","None","10.10.20.100","udp","111","RPC portmapper Service Detection","An ONC RPC portmapper is running on the remote host.","The RPC portmapper is running on this port.
+
+The portmapper allows someone to get the port number of each RPC
+service running on the remote host by sending either multiple lookup
+requests or a DUMP request.","n/a","",""
+"10245","CVE-1999-0651","7.5","High","10.10.20.100","tcp","514","rsh Service Detection","The rsh service is running on the remote host.","The rsh service is running on the remote host. This service is
+vulnerable since data is passed between the rsh client and server
+in cleartext. A man-in-the-middle attacker can exploit this to sniff
+logins and passwords. Also, it may allow poorly authenticated logins
+without passwords. If the host is vulnerable to TCP sequence number
+guessing (from any network) or IP spoofing (including ARP hijacking on
+a local network) then it may be possible to bypass authentication.
+Finally, rsh is an easy way to turn file-write access into full
+logins through the .rhosts or rhosts.equiv files.","Comment out the 'rsh' line in /etc/inetd.conf and restart the inetd
+process. Alternatively, disable this service and use SSH instead.","",""
+"10263","","","None","10.10.20.100","tcp","25","SMTP Server Detection","An SMTP server is listening on the remote port.","The remote host is running a mail (SMTP) server on this port. 
+
+Since SMTP servers are the targets of spammers, it is recommended you
+disable it if you do not use it.","Disable this service if you do not use it, or filter incoming traffic
+to this port.","","
+Remote SMTP server banner :
+
+220 metasploitable.localdomain ESMTP Postfix (Ubuntu)
+"
+"10267","","","None","10.10.20.100","tcp","22","SSH Server Type and Version Information","An SSH server is listening on this port.","It is possible to obtain information about the remote SSH server by
+sending an empty authentication request.","n/a","","
+SSH version : SSH-2.0-OpenSSH_4.7p1 Debian-8ubuntu1
+SSH supported authentication : publickey,password
+"
+"10281","","","None","10.10.20.100","tcp","23","Telnet Server Detection","A Telnet server is listening on the remote port.","The remote host is running a Telnet server, a remote terminal
+server.","Disable this service if you do not use it.","","Here is the banner from the remote Telnet server :
+
+------------------------------ snip ------------------------------
+                _                  _       _ _        _     _      ____  
+ _ __ ___   ___| |_ __ _ ___ _ __ | | ___ (_) |_ __ _| |__ | | ___|___ \ 
+| '_ ` _ \ / _ \ __/ _` / __| '_ \| |/ _ \| | __/ _` | '_ \| |/ _ \ __) |
+| | | | | |  __/ || (_| \__ \ |_) | | (_) | | || (_| | |_) | |  __// __/ 
+|_| |_| |_|\___|\__\__,_|___/ .__/|_|\___/|_|\__\__,_|_.__/|_|\___|_____|
+                            |_|                                          
+
+
+Warning: Never expose this VM to an untrusted network!
+
+Contact: msfdev[at]metasploit.com
+
+Login with msfadmin/msfadmin to get started
+
+
+metasploitable login: 
+------------------------------ snip ------------------------------
+"
+"10287","","","None","10.10.20.100","udp","0","Traceroute Information","It was possible to obtain traceroute information.","Makes a traceroute to the remote host.","n/a","","For your information, here is the traceroute from 10.10.30.100 to 10.10.20.100 : 
+10.10.30.100
+10.10.30.1
+10.10.20.100
+"
+"10342","","","None","10.10.20.100","tcp","5900","VNC Software Detection","The remote host is running a remote display software (VNC).","The remote host is running VNC (Virtual Network Computing), which uses
+the RFB (Remote Framebuffer) protocol to provide remote access to
+graphical user interfaces and thus permits a console on the remote
+host to be displayed on another.","Make sure use of this software is done in accordance with your
+organization's security policy and filter incoming traffic to this
+port.","http://en.wikipedia.org/wiki/Vnc","
+The highest RFB protocol version supported by the server is :
+
+  3.3
+"
+"10394","","","None","10.10.20.100","tcp","445","Microsoft Windows SMB Log In Possible","It was possible to log into the remote host.","The remote host is running a Microsoft Windows operating system or
+Samba, a CIFS/SMB server for Unix. It was possible to log into it
+using one of the following accounts :
+
+- NULL session
+- Guest account
+- Supplied credentials","n/a","http://support.microsoft.com/kb/143474
+http://support.microsoft.com/kb/246261","- NULL sessions are enabled on the remote host.
+"
+"10397","","","None","10.10.20.100","tcp","445","Microsoft Windows SMB LanMan Pipe Server Listing Disclosure","It is possible to obtain network information.","It was possible to obtain the browse list of the remote Windows system
+by sending a request to the LANMAN pipe. The browse list is the list
+of the nearest Windows systems of the remote host.","n/a","","
+Here is the browse list of the remote host : 
+
+METASPLOITABLE ( os : 0.0 )
+"
+"10407","","2.6","Low","10.10.20.100","tcp","6000","X Server Detection","An X11 server is listening on the remote host","The remote host is running an X11 server.  X11 is a client-server
+protocol that can be used to display graphical applications running on
+a given host on a remote client. 
+
+Since the X11 traffic is not ciphered, it is possible for an attacker
+to eavesdrop on the connection.","Restrict access to this port. If the X11 client/server facility is not
+used, disable TCP support in X11 entirely (-nolisten tcp).","","
+X11 Version : 11.0
+"
+"10437","CVE-1999-0554","","None","10.10.20.100","tcp","2049","NFS Share Export List","The remote NFS server exports a list of shares.","This plugin retrieves the list of NFS exported shares.","Ensure each share is intended to be exported.","http://www.tldp.org/HOWTO/NFS-HOWTO/security.html","
+Here is the export list of 10.10.20.100 :
+  
+  / *
+"
+"10719","","","None","10.10.20.100","tcp","3306","MySQL Server Detection","A database server is listening on the remote port.","The remote host is running MySQL, an open source database server.","n/a","","
+Version  : 5.0.51a-3ubuntu5
+Protocol : 10
+Server Status : SERVER_STATUS_AUTOCOMMIT
+Server Capabilities : 
+  CLIENT_LONG_FLAG (Get all column flags)
+  CLIENT_CONNECT_WITH_DB (One can specify db on connect)
+  CLIENT_COMPRESS (Can use compression protocol)
+  CLIENT_PROTOCOL_41 (New 4.1 protocol)
+  CLIENT_SSL (Switch to SSL after handshake)
+  CLIENT_TRANSACTIONS (Client knows about transactions)
+  CLIENT_SECURE_CONNECTION (New 4.1 authentication)
+"
+"10785","","","None","10.10.20.100","tcp","445","Microsoft Windows SMB NativeLanManager Remote System Information Disclosure","It was possible to obtain information about the remote operating
+system.","Nessus was able to obtain the remote operating system name and version
+(Windows and/or Samba) by sending an authentication request to port
+139 or 445. Note that this plugin requires SMB1 to be enabled on the
+host.","n/a","","The remote Operating System is : Unix
+The remote native LAN manager is : Samba 3.0.20-Debian
+The remote SMB Domain Name is : METASPLOITABLE
+"
+"10863","","","None","10.10.20.100","tcp","25","SSL Certificate Information","This plugin displays the SSL certificate.","This plugin connects to every SSL-related port and attempts to 
+extract and dump the X.509 certificate.","n/a","","Subject Name: 
+
+Country: XX
+State/Province: There is no such thing outside US
+Locality: Everywhere
+Organization: OCOSA
+Organization Unit: Office for Complication of Otherwise Simple Affairs
+Common Name: ubuntu804-base.localdomain
+Email Address: root@ubuntu804-base.localdomain
+
+Issuer Name: 
+
+Country: XX
+State/Province: There is no such thing outside US
+Locality: Everywhere
+Organization: OCOSA
+Organization Unit: Office for Complication of Otherwise Simple Affairs
+Common Name: ubuntu804-base.localdomain
+Email Address: root@ubuntu804-base.localdomain
+
+Serial Number: 00 FA F9 3A 4C 7F B6 B9 CC 
+
+Version: 1
+
+Signature Algorithm: SHA-1 With RSA Encryption
+
+Not Valid Before: Mar 17 14:07:45 2010 GMT
+Not Valid After: Apr 16 14:07:45 2010 GMT
+
+Public Key Info: 
+
+Algorithm: RSA Encryption
+Key Length: 1024 bits
+Public Key: 00 D6 B4 13 36 33 9A 95 71 7B 1B DE 7C 83 75 DA 71 B1 3C A9 
+            7F FE AD 64 1B 77 E9 4F AE BE CA D4 F8 CB EF AE BB 43 79 24 
+            73 FF 3C E5 9E 3B 6D FC C8 B1 AC FA 4C 4D 5E 9B 4C 99 54 0B 
+            D7 A8 4A 50 BA A9 DE 1D 1F F4 E4 6B 02 A3 F4 6B 45 CD 4C AF 
+            8D 89 62 33 8F 65 BB 36 61 9F C4 2C 73 C1 4E 2E A0 A8 14 4E 
+            98 70 46 61 BB D1 B9 31 DF 8C 99 EE 75 6B 79 3C 40 A0 AE 97 
+            00 90 9D DC 99 0D 33 A4 B5 
+Exponent: 01 00 01 
+
+Signature Length: 128 bytes / 1024 bits
+Signature: 00 92 A4 B4 B8 14 55 63 25 51 4A 0B C3 2A 22 CF 3A F8 17 6A 
+           0C CF 66 AA A7 65 2F 48 6D CD E3 3E 5C 9F 77 6C D4 44 54 1F 
+           1E 84 4F 8E D4 8D DD AC 2D 88 09 21 A8 DA 56 2C A9 05 3C 49 
+           68 35 19 75 0C DA 53 23 88 88 19 2D 74 26 C1 22 65 EE 11 68 
+           83 6A 53 4A 9C 27 CB A0 B4 E9 8D 29 0C B2 3C 18 5C 67 CC 53 
+           A6 1E 30 D0 AA 26 7B 1E AE 40 B9 29 01 6C 2E BC A2 19 94 7C 
+           15 6E 8D 30 38 F6 CA 2E 75 
+
+Fingerprints : 
+
+SHA-256 Fingerprint: E7 A7 FA 0D 63 E4 57 C7 C4 A5 9B 38 B7 08 49 C6 A7 0B DA 6F 
+                     83 0C 7A F1 E3 2D EE 43 6D E8 13 CC 
+SHA-1 Fingerprint: ED 09 30 88 70 66 03 BF D5 DC 23 73 99 B4 98 DA 2D 4D 31 C6 
+MD5 Fingerprint: DC D9 AD 90 6C 8F 2F 73 74 AF 38 3B 25 40 88 28 
+
+"
+"10881","","","None","10.10.20.100","tcp","22","SSH Protocol Versions Supported","A SSH server is running on the remote host.","This plugin determines the versions of the SSH protocol supported by
+the remote SSH daemon.","n/a","","The remote SSH daemon supports the following versions of the
+SSH protocol :
+
+  - 1.99
+  - 2.0
+"
+"11002","","","None","10.10.20.100","udp","53","DNS Server Detection","A DNS server is listening on the remote host.","The remote service is a Domain Name System (DNS) server, which
+provides a mapping between hostnames and IP addresses.","Disable this service if it is not needed or restrict access to
+internal hosts only if the service is available externally.","https://en.wikipedia.org/wiki/Domain_Name_System",""
+"11002","","","None","10.10.20.100","tcp","53","DNS Server Detection","A DNS server is listening on the remote host.","The remote service is a Domain Name System (DNS) server, which
+provides a mapping between hostnames and IP addresses.","Disable this service if it is not needed or restrict access to
+internal hosts only if the service is available externally.","https://en.wikipedia.org/wiki/Domain_Name_System",""
+"11011","","","None","10.10.20.100","tcp","445","Microsoft Windows SMB Service Detection","A file / print sharing service is listening on the remote host.","The remote service understands the CIFS (Common Internet File System)
+or Server Message Block (SMB) protocol, used to provide shared access
+to files, printers, etc between nodes on a network.","n/a","","
+A CIFS server is running on this port.
+"
+"11011","","","None","10.10.20.100","tcp","139","Microsoft Windows SMB Service Detection","A file / print sharing service is listening on the remote host.","The remote service understands the CIFS (Common Internet File System)
+or Server Message Block (SMB) protocol, used to provide shared access
+to files, printers, etc between nodes on a network.","n/a","","
+An SMB server is running on this port.
+"
+"11111","","","None","10.10.20.100","tcp","2049","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on TCP port 2049 :
+
+ - program: 100003 (nfs), version: 2
+ - program: 100003 (nfs), version: 3
+ - program: 100003 (nfs), version: 4
+"
+"11111","","","None","10.10.20.100","tcp","34304","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on TCP port 34304 :
+
+ - program: 100024 (status), version: 1
+"
+"11111","","","None","10.10.20.100","tcp","35978","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on TCP port 35978 :
+
+ - program: 100005 (mountd), version: 1
+ - program: 100005 (mountd), version: 2
+ - program: 100005 (mountd), version: 3
+"
+"11111","","","None","10.10.20.100","tcp","111","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on TCP port 111 :
+
+ - program: 100000 (portmapper), version: 2
+"
+"11111","","","None","10.10.20.100","tcp","52641","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on TCP port 52641 :
+
+ - program: 100021 (nlockmgr), version: 1
+ - program: 100021 (nlockmgr), version: 3
+ - program: 100021 (nlockmgr), version: 4
+"
+"11111","","","None","10.10.20.100","udp","54929","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on UDP port 54929 :
+
+ - program: 100021 (nlockmgr), version: 1
+ - program: 100021 (nlockmgr), version: 3
+ - program: 100021 (nlockmgr), version: 4
+"
+"11111","","","None","10.10.20.100","udp","2049","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on UDP port 2049 :
+
+ - program: 100003 (nfs), version: 2
+ - program: 100003 (nfs), version: 3
+ - program: 100003 (nfs), version: 4
+"
+"11111","","","None","10.10.20.100","udp","111","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on UDP port 111 :
+
+ - program: 100000 (portmapper), version: 2
+"
+"11111","","","None","10.10.20.100","udp","45982","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on UDP port 45982 :
+
+ - program: 100005 (mountd), version: 1
+ - program: 100005 (mountd), version: 2
+ - program: 100005 (mountd), version: 3
+"
+"11111","","","None","10.10.20.100","udp","57486","RPC Services Enumeration","An ONC RPC service is running on the remote host.","By sending a DUMP request to the portmapper, it was possible to
+enumerate the ONC RPC services running on the remote port.  Using this
+information, it is possible to connect and bind to each service by
+sending an RPC request to the remote port.","n/a","","
+The following RPC services are available on UDP port 57486 :
+
+ - program: 100024 (status), version: 1
+"
+"11153","","","None","10.10.20.100","tcp","3306","Service Detection (HELP Request)","The remote service could be identified.","It was possible to identify the remote service by its banner or by
+looking at the error message it sends when it receives a 'HELP'
+request.","n/a","","A MySQL server is running on this port."
+"11154","","","None","10.10.20.100","tcp","8787","Unknown Service Detection: Banner Retrieval","There is an unknown service running on the remote host.","Nessus was unable to identify a service on the remote host even though
+it returned a banner of some type.","n/a","","
+If you know what this service is and think the banner could be used to
+identify it, please send a description of the service along with the
+following output to svc-signatures@nessus.org :
+
+  Port   : 8787
+  Type   : get_http
+  Banner : 
+0x0000:  00 00 00 03 04 08 46 00 00 03 A1 04 08 6F 3A 16    ......F......o:.
+           0x0010:  44 52 62 3A 3A 44 52 62 43 6F 6E 6E 45 72 72 6F    DRb::DRbConnErro
+           0x0020:  72 07 3A 07 62 74 5B 17 22 2F 2F 75 73 72 2F 6C    r.:.bt[.""//usr/l
+           0x0030:  69 62 2F 72 75 62 79 2F 31 2E 38 2F 64 72 62 2F    ib/ruby/1.8/drb/
+           0x0040:  64 72 62 2E 72 62 3A 35 37 33 3A 69 6E 20 60 6C    drb.rb:573:in `l
+           0x0050:  6F 61 64 27 22 37 2F 75 73 72 2F 6C 69 62 2F 72    oad'""7/usr/lib/r
+           0x0060:  75 62 79 2F 31 2E 38 2F 64 72 62 2F 64 72 62 2E    uby/1.8/drb/drb.
+           0x0070:  72 62 3A 36 31 32 3A 69 6E 20 60 72 65 63 76 5F    rb:612:in `recv_
+           0x0080:  72 65 71 75 65 73 74 27 22 37 2F 75 73 72 2F 6C    request'""7/usr/l
+           0x0090:  69 62 2F 72 75 62 79 2F 31 2E 38 2F 64 72 62 2F    ib/ruby/1.8/drb/
+           0x00A0:  64 72 62 2E 72 62 3A 39 31 31 3A 69 6E 20 60 72    drb.rb:911:in `r
+           0x00B0:  65 63 76 5F 72 65 71 75 65 73 74 27 22 3C 2F 75    ecv_request'""</u
+           0x00C0:  73 72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F    sr/lib/ruby/1.8/
+           0x00D0:  64 72 62 2F 64 72 62 2E 72 62 3A 31 35 33 30 3A    drb/drb.rb:1530:
+           0x00E0:  69 6E 20 60 69 6E 69 74 5F 77 69 74 68 5F 63 6C    in `init_with_cl
+           0x00F0:  69 65 6E 74 27 22 39 2F 75 73 72 2F 6C 69 62 2F    ient'""9/usr/lib/
+           0x0100:  72 75 62 79 2F 31 2E 38 2F 64 72 62 2F 64 72 62    ruby/1.8/drb/drb
+           0x0110:  2E 72 62 3A 31 35 34 32 3A 69 6E 20 60 73 65 74    .rb:1542:in `set
+           0x0120:  75 70 5F 6D 65 73 73 61 67 65 27 22 33 2F 75 73    up_message'""3/us
+           0x0130:  72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F 64    r/lib/ruby/1.8/d
+           0x0140:  72 62 2F 64 72 62 2E 72 62 3A 31 34 39 34 3A 69    rb/drb.rb:1494:i
+           0x0150:  6E 20 60 70 65 72 66 6F 72 6D 27 22 35 2F 75 73    n `perform'""5/us
+           0x0160:  72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F 64    r/lib/ruby/1.8/d
+           0x0170:  72 62 2F 64 72 62 2E 72 62 3A 31 35 38 39 3A 69    rb/drb.rb:1589:i
+           0x0180:  6E 20 60 6D 61 69 6E 5F 6C 6F 6F 70 27 22 30 2F    n `main_loop'""0/
+           0x0190:  75 73 72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38    usr/lib/ruby/1.8
+           0x01A0:  2F 64 72 62 2F 64 72 62 2E 72 62 3A 31 35 38 35    /drb/drb.rb:1585
+           0x01B0:  3A 69 6E 20 60 6C 6F 6F 70 27 22 35 2F 75 73 72    :in `loop'""5/usr
+           0x01C0:  2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F 64 72    /lib/ruby/1.8/dr
+           0x01D0:  62 2F 64 72 62 2E 72 62 3A 31 35 38 35 3A 69 6E    b/drb.rb:1585:in
+           0x01E0:  20 60 6D 61 69 6E 5F 6C 6F 6F 70 27 22 31 2F 75     `main_loop'""1/u
+           0x01F0:  73 72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F    sr/lib/ruby/1.8/
+           0x0200:  64 72 62 2F 64 72 62 2E 72 62 3A 31 35 38 31 3A    drb/drb.rb:1581:
+           0x0210:  69 6E 20 60 73 74 61 72 74 27 22 35 2F 75 73 72    in `start'""5/usr
+           0x0220:  2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F 64 72    /lib/ruby/1.8/dr
+           0x0230:  62 2F 64 72 62 2E 72 62 3A 31 35 38 31 3A 69 6E    b/drb.rb:1581:in
+           0x0240:  20 60 6D 61 69 6E 5F 6C 6F 6F 70 27 22 2F 2F 75     `main_loop'""//u
+           0x0250:  73 72 2F 6C 69 62 2F 72 75 62 79 2F 31 2E 38 2F    sr/lib/ruby/1.8/
+           0x0260:  64 72 62 2F 64 72 62 2E 72 62 3A 31 34 33 30 3A    drb/drb.rb:1430:
+           0x0270:  69 6E 20 60 72 75 6E 27 22 31 2F 75 73 72 2F 6C    in `run'""1/usr/l
+           0x0280:  69 62 2F 72 75 62 79 2F 31 2E 38 2F 64 72 62 2F    ib/ruby/1.8/drb/
+           0x0290:  64 72 62 2E 72 62 3A 31 34 32 37 3A 69 6E 20 60    drb.rb:1427:in `
+           0x02A0:  73 74 61 72 74 27 22 2F 2F 75 73 72 2F 6C 69 62    start'""//usr/lib
+           0x02B0:  2F 72 75 62 79 2F 31 2E 38 2F 64 72 62 2F 64 72    /ruby/1.8/drb/dr
+           0x02C0:  62 2E 72 62 3A 31 34 32 37 3A 69 6E 20 60 72 75    b.rb:1427:in `ru
+           0x02D0:  6E 27 22 36 2F 75 73 72 2F 6C 69 62 2F 72 75 62    n'""6/usr/lib/rub
+           0x02E0:  79 2F 31 2E 38 2F 64 72 62 2F 64 72 62 2E 72 62    y/1.8/drb/drb.rb
+           0x02F0:  3A 31 33 34 37 3A 69 6E 20 60 69 6E 69 74 69 61    :1347:in `initia
+           0x0300:  6C 69 7A 65 27 22 2F 2F 75 73 72 2F 6C 69 62 2F    lize'""//usr/lib/
+           0x0310:  72 75 62 79 2F 31 2E 38 2F 64 72 62 2F 64 72 62    ruby/1.8/drb/drb
+           0x0320:  2E 72 62 3A 31 36 32 37 3A 69 6E 20 60 6E 65 77    .rb:1627:in `new
+           0x0330:  27 22 39 2F 75 73 72 2F 6C 69 62 2F 72 75 62 79    '""9/usr/lib/ruby
+           0x0340:  2F 31 2E 38 2F 64 72 62 2F 64 72 62 2E 72 62 3A    /1.8/drb/drb.rb:
+           0x0350:  31 36 32 37 3A 69 6E 20 60 73 74 61 72 74 5F 73    1627:in `start_s
+           0x0360:  65 72 76 69 63 65 27 22 25 2F 75 73 72 2F 73 62    ervice'""%/usr/sb
+           0x0370:  69 6E 2F 64 72 75 62 79 5F 74 69 6D 65 73 65 72    in/druby_timeser
+           0x0380:  76 65 72 2E 72 62 3A 31 32 3A 09 6D 65 73 67 22    ver.rb:12:.mesg""
+           0x0390:  20 74 6F 6F 20 6C 61 72 67 65 20 70 61 63 6B 65     too large packe
+           0x03A0:  74 20 31 31 39 35 37 32 35 38 35 36                t 1195725856    
+           
+"
+"11156","","","None","10.10.20.100","tcp","6667","IRC Daemon Version Detection","The remote host is an IRC server.","This plugin determines the version of the IRC daemon.","n/a","","The IRC server version is : Unreal3.2.8.1. FhiXOoE [*=2309]
+"
+"11213","CVE-2003-1567","5.0","Medium","10.10.20.100","tcp","80","HTTP TRACE / TRACK Methods Allowed","Debugging functions are enabled on the remote web server.","The remote web server supports the TRACE and/or TRACK methods. TRACE
+and TRACK are HTTP methods that are used to debug web server
+connections.","Disable these methods. Refer to the plugin output for more information.","http://www.cgisecurity.com/whitehat-mirror/WH-WhitePaper_XST_ebook.pdf
+http://www.apacheweek.com/issues/03-01-24
+http://download.oracle.com/sunalerts/1000718.1.html","
+To disable these methods, add the following lines for each virtual
+host in your configuration file :
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+
+Alternatively, note that Apache versions 1.3.34, 2.0.55, and 2.2
+support disabling the TRACE method natively via the 'TraceEnable'
+directive.
+
+Nessus sent the following TRACE request : 
+
+------------------------------ snip ------------------------------
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Close
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+
+and received the following response from the remote server :
+
+------------------------------ snip ------------------------------
+HTTP/1.1 200 OK
+Date: Wed, 24 May 2017 21:08:10 GMT
+Server: Apache/2.2.8 (Ubuntu) DAV/2
+Keep-Alive: timeout=15, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: message/http
+
+
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Keep-Alive
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+"
+"11213","CVE-2004-2320","5.0","Medium","10.10.20.100","tcp","80","HTTP TRACE / TRACK Methods Allowed","Debugging functions are enabled on the remote web server.","The remote web server supports the TRACE and/or TRACK methods. TRACE
+and TRACK are HTTP methods that are used to debug web server
+connections.","Disable these methods. Refer to the plugin output for more information.","http://www.cgisecurity.com/whitehat-mirror/WH-WhitePaper_XST_ebook.pdf
+http://www.apacheweek.com/issues/03-01-24
+http://download.oracle.com/sunalerts/1000718.1.html","
+To disable these methods, add the following lines for each virtual
+host in your configuration file :
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+
+Alternatively, note that Apache versions 1.3.34, 2.0.55, and 2.2
+support disabling the TRACE method natively via the 'TraceEnable'
+directive.
+
+Nessus sent the following TRACE request : 
+
+------------------------------ snip ------------------------------
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Close
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+
+and received the following response from the remote server :
+
+------------------------------ snip ------------------------------
+HTTP/1.1 200 OK
+Date: Wed, 24 May 2017 21:08:10 GMT
+Server: Apache/2.2.8 (Ubuntu) DAV/2
+Keep-Alive: timeout=15, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: message/http
+
+
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Keep-Alive
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+"
+"11213","CVE-2010-0386","5.0","Medium","10.10.20.100","tcp","80","HTTP TRACE / TRACK Methods Allowed","Debugging functions are enabled on the remote web server.","The remote web server supports the TRACE and/or TRACK methods. TRACE
+and TRACK are HTTP methods that are used to debug web server
+connections.","Disable these methods. Refer to the plugin output for more information.","http://www.cgisecurity.com/whitehat-mirror/WH-WhitePaper_XST_ebook.pdf
+http://www.apacheweek.com/issues/03-01-24
+http://download.oracle.com/sunalerts/1000718.1.html","
+To disable these methods, add the following lines for each virtual
+host in your configuration file :
+
+    RewriteEngine on
+    RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+    RewriteRule .* - [F]
+
+Alternatively, note that Apache versions 1.3.34, 2.0.55, and 2.2
+support disabling the TRACE method natively via the 'TraceEnable'
+directive.
+
+Nessus sent the following TRACE request : 
+
+------------------------------ snip ------------------------------
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Close
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+
+and received the following response from the remote server :
+
+------------------------------ snip ------------------------------
+HTTP/1.1 200 OK
+Date: Wed, 24 May 2017 21:08:10 GMT
+Server: Apache/2.2.8 (Ubuntu) DAV/2
+Keep-Alive: timeout=15, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: message/http
+
+
+TRACE /Nessus1037038945.html HTTP/1.1
+Connection: Keep-Alive
+Host: 10.10.20.100
+Pragma: no-cache
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+Accept-Language: en
+Accept-Charset: iso-8859-1,*,utf-8
+
+------------------------------ snip ------------------------------
+"
+"11219","","","None","10.10.20.100","tcp","23","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 23/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","111","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 111/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","139","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 139/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","6000","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 6000/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","80","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 80/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","25","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 25/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","53","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 53/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","21","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 21/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","445","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 445/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","22","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 22/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","512","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 512/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","2049","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 2049/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","2121","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 2121/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","5432","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 5432/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","3306","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 3306/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","5900","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 5900/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","6667","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 6667/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","8787","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 8787/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","1099","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 1099/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","513","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 513/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","8180","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 8180/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","1524","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 1524/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","514","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 514/tcp was found to be open"
+"11219","","","None","10.10.20.100","tcp","3632","Nessus SYN scanner","It is possible to determine which TCP ports are open.","This plugin is a SYN 'half-open' port scanner.  It shall be reasonably
+quick even against a firewalled target. 
+
+Note that SYN scans are less intrusive than TCP (full connect) scans
+against broken services, but they might cause problems for less robust
+firewalls and also leave unclosed connections on the remote target, if
+the network is loaded.","Protect your target with an IP filter.","","Port 3632/tcp was found to be open"
+"11356","CVE-1999-0170","6.4","Medium","10.10.20.100","udp","2049","NFS Exported Share Information Disclosure","It is possible to access NFS shares on the remote host.","At least one of the NFS shares exported by the remote server could be
+mounted by the scanning host.  An attacker may be able to leverage
+this to read (and possibly write) files on remote host.","Configure NFS on the remote host so that only authorized hosts can
+mount its remote shares.","","
+The following NFS shares could be mounted :
+
++ /
+  + Contents of / : 
+    - .
+    - ..
+    - bin
+    - boot
+    - cdrom
+    - dev
+    - etc
+    - home
+    - initrd
+    - initrd.img
+    - lib
+    - lost+found
+    - media
+    - mnt
+    - nohup.out
+    - opt
+    - proc
+    - root
+    - sbin
+    - srv
+    - sys
+    - tmp
+    - usr
+    - var
+    - vmlinuz
+"
+"11356","CVE-1999-0211","6.4","Medium","10.10.20.100","udp","2049","NFS Exported Share Information Disclosure","It is possible to access NFS shares on the remote host.","At least one of the NFS shares exported by the remote server could be
+mounted by the scanning host.  An attacker may be able to leverage
+this to read (and possibly write) files on remote host.","Configure NFS on the remote host so that only authorized hosts can
+mount its remote shares.","","
+The following NFS shares could be mounted :
+
++ /
+  + Contents of / : 
+    - .
+    - ..
+    - bin
+    - boot
+    - cdrom
+    - dev
+    - etc
+    - home
+    - initrd
+    - initrd.img
+    - lib
+    - lost+found
+    - media
+    - mnt
+    - nohup.out
+    - opt
+    - proc
+    - root
+    - sbin
+    - srv
+    - sys
+    - tmp
+    - usr
+    - var
+    - vmlinuz
+"
+"11356","CVE-1999-0554","6.4","Medium","10.10.20.100","udp","2049","NFS Exported Share Information Disclosure","It is possible to access NFS shares on the remote host.","At least one of the NFS shares exported by the remote server could be
+mounted by the scanning host.  An attacker may be able to leverage
+this to read (and possibly write) files on remote host.","Configure NFS on the remote host so that only authorized hosts can
+mount its remote shares.","","
+The following NFS shares could be mounted :
+
++ /
+  + Contents of / : 
+    - .
+    - ..
+    - bin
+    - boot
+    - cdrom
+    - dev
+    - etc
+    - home
+    - initrd
+    - initrd.img
+    - lib
+    - lost+found
+    - media
+    - mnt
+    - nohup.out
+    - opt
+    - proc
+    - root
+    - sbin
+    - srv
+    - sys
+    - tmp
+    - usr
+    - var
+    - vmlinuz
+"
+"11424","","","None","10.10.20.100","tcp","80","WebDAV Detection","The remote server is running with WebDAV enabled.","WebDAV is an industry standard extension to the HTTP specification.
+It adds a capability for authorized users to remotely add and manage
+the content of a web server.
+
+If you do not use this extension, you should disable it.","http://support.microsoft.com/default.aspx?kbid=241520","",""
+"11819","","","None","10.10.20.100","udp","69","TFTP Daemon Detection","A TFTP server is listening on the remote port.","The remote host is running a TFTP (Trivial File Transfer Protocol)
+daemon. TFTP is often used by routers and diskless hosts to retrieve
+their configuration. It can also be used by worms to propagate.","Disable this service if you do not use it.","",""
+"11936","","","None","10.10.20.100","tcp","0","OS Identification","It is possible to guess the remote operating system.","Using a combination of remote probes (e.g., TCP/IP, SMB, HTTP, NTP,
+SNMP, etc.), it is possible to guess the name of the remote operating
+system in use. It is also possible sometimes to guess the version of
+the operating system.","n/a","","
+Remote operating system : Linux Kernel 2.6 on Ubuntu 8.04 (gutsy)
+Confidence level : 95
+Method : HTTP
+
+Not all fingerprints could give a match. If you think some or all of
+the following could be used to identify the host's operating system,
+please email them to os-signatures@nessus.org. Be sure to include a
+brief description of the host itself, such as the actual operating
+system or product / model names.
+
+SSH:SSH-2.0-OpenSSH_4.7p1 Debian-8ubuntu1
+SinFP:
+   P1:B10113:F0x12:W5840:O0204ffff:M1460:
+   P2:B10113:F0x12:W5792:O0204ffff0402080affffffff4445414401030305:M1460:
+   P3:B00000:F0x00:W0:O0:M0
+   P4:61006_7_p=6667R
+SMTP:!:220 metasploitable.localdomain ESMTP Postfix (Ubuntu)
+SSLcert:!:i/CN:ubuntu804-base.localdomaini/O:OCOSAi/OU:Office for Complication of Otherwise Simple Affairss/CN:ubuntu804-base.localdomains/O:OCOSAs/OU:Office for Complication of Otherwise Simple Affairs
+ed093088706603bfd5dc237399b498da2d4d31c6
+
+
+ 
+The remote host is running Linux Kernel 2.6 on Ubuntu 8.04 (gutsy)"
+"15901","","5.0","Medium","10.10.20.100","tcp","25","SSL Certificate Expiry","The remote server's SSL certificate has already expired.","This plugin checks expiry dates of certificates associated with SSL-
+enabled services on the target and reports whether any have already
+expired.","Purchase or generate a new SSL certificate to replace the existing
+one.","","
+The SSL certificate has already expired :
+
+  Subject          : C=XX, ST=There is no such thing outside US, L=Everywhere, O=OCOSA, OU=Office for Complication of Otherwise Simple Affairs, CN=ubuntu804-base.localdomain, emailAddress=root@ubuntu804-base.localdomain
+  Issuer           : C=XX, ST=There is no such thing outside US, L=Everywhere, O=OCOSA, OU=Office for Complication of Otherwise Simple Affairs, CN=ubuntu804-base.localdomain, emailAddress=root@ubuntu804-base.localdomain
+  Not valid before : Mar 17 14:07:45 2010 GMT
+  Not valid after  : Apr 16 14:07:45 2010 GMT
+"
+"18261","","","None","10.10.20.100","tcp","0","Apache Banner Linux Distribution Disclosure","The name of the Linux distribution running on the remote host was
+found in the banner of the web server.","Nessus was able to extract the banner of the Apache web server and
+determine which Linux distribution the remote host is running.","If you do not wish to display this information, edit 'httpd.conf' and
+set the directive 'ServerTokens Prod' and restart Apache.
+n/a","","
+The Linux distribution detected was : 
+ - Ubuntu 8.04 (gutsy)
+"
+"19288","","","None","10.10.20.100","tcp","5900","VNC Server Security Type Detection","A VNC server is running on the remote host.","This script checks the remote VNC server protocol version and the
+available 'security types'.","n/a","","
+The remote VNC server chose security type #2 (VNC authentication)"
+"19506","","","None","10.10.20.100","tcp","0","Nessus Scan Information","This plugin displays information about the Nessus scan.","This plugin displays, for each tested host, information about the
+scan itself :
+
+  - The version of the plugin set.
+  - The type of scanner (Nessus or Nessus Home).
+  - The version of the Nessus Engine.
+  - The port scanner(s) used.
+  - The port range scanned.
+  - Whether credentialed or third-party patch management
+    checks are possible.
+  - The date of the scan.
+  - The duration of the scan.
+  - The number of hosts scanned in parallel.
+  - The number of checks done in parallel.","n/a","","Information about this scan : 
+
+Nessus version : 6.10.6
+Plugin feed version : 201705240615
+Scanner edition used : Nessus
+Scan type : Normal
+Scan policy used : FAST SCAN
+Scanner IP : 10.10.30.100
+Port scanner(s) : nessus_syn_scanner 
+Port range : default
+Thorough tests : no
+Experimental tests : no
+Paranoia level : 1
+Report verbosity : 2
+Safe checks : yes
+Optimize the test : yes
+Credentialed checks : no
+Patch management checks : None
+CGI scanning : disabled
+Web application tests : disabled
+Max hosts : 100
+Max checks : 5
+Recv timeout : 5
+Backports : Detected
+Allow post-scan editing: Yes
+Scan duration : unknown
+"
+"20007","","5.0","Medium","10.10.20.100","tcp","25","SSL Version 2 and 3 Protocol Detection","The remote service encrypts traffic using a protocol with known
+weaknesses.","The remote service accepts connections encrypted using SSL 2.0 and/or
+SSL 3.0. These versions of SSL are affected by several cryptographic
+flaws. An attacker can exploit these flaws to conduct
+man-in-the-middle attacks or to decrypt communications between the
+affected service and clients.
+
+NIST has determined that SSL 3.0 is no longer acceptable for secure
+communications. As of the date of enforcement found in PCI DSS v3.1,
+any version of SSL will not meet the PCI SSC'S definition of 'strong
+cryptography'.","Consult the application's documentation to disable SSL 2.0 and 3.0.
+Use TLS 1.1 (with approved cipher suites) or higher instead.","http://www.schneier.com/paper-ssl.pdf
+http://support.microsoft.com/kb/187498
+http://www.nessus.org/u?247c4540
+https://www.openssl.org/~bodo/ssl-poodle.pdf
+http://www.nessus.org/u?5d15ba70
+https://www.imperialviolet.org/2014/10/14/poodle.html
+https://tools.ietf.org/html/draft-ietf-tls-downgrade-scsv-00","
+- SSLv2 is enabled and the server supports at least one cipher.
+
+- SSLv3 is enabled and the server supports at least one cipher.
+"
+"21643","","","None","10.10.20.100","tcp","25","SSL Cipher Suites Supported","The remote service encrypts communications using SSL.","This plugin detects which SSL ciphers are supported by the remote
+service for encrypting communications.","n/a","https://www.openssl.org/docs/manmaster/apps/ciphers.html
+http://www.nessus.org/u?7d537016","
+Here is the list of SSL ciphers supported by the remote server :
+Each group is reported per SSL Version.
+
+SSL Version : TLSv1
+  Low Strength Ciphers (<= 64-bit key)
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EDH-RSA-DES-CBC-SHA          Kx=DH          Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      ADH-DES-CBC-SHA              Kx=DH          Au=None     Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-DES-CBC-SHA              Kx=RSA(512)    Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+      DES-CBC-SHA                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+      DHE-RSA-AES128-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      DHE-RSA-AES256-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-AES128-SHA               Kx=DH          Au=None     Enc=AES-CBC(128)         Mac=SHA1   
+      ADH-AES256-SHA               Kx=DH          Au=None     Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-RC4-MD5                  Kx=DH          Au=None     Enc=RC4(128)             Mac=MD5    
+      AES128-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      AES256-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+      RC4-SHA                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=SHA1   
+
+
+SSL Version : SSLv3
+  Low Strength Ciphers (<= 64-bit key)
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EDH-RSA-DES-CBC-SHA          Kx=DH          Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      ADH-DES-CBC-SHA              Kx=DH          Au=None     Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-DES-CBC-SHA              Kx=RSA(512)    Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+      DES-CBC-SHA                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+      DHE-RSA-AES128-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      DHE-RSA-AES256-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-AES128-SHA               Kx=DH          Au=None     Enc=AES-CBC(128)         Mac=SHA1   
+      ADH-AES256-SHA               Kx=DH          Au=None     Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-RC4-MD5                  Kx=DH          Au=None     Enc=RC4(128)             Mac=MD5    
+      AES128-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      AES256-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+      RC4-SHA                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=SHA1   
+
+
+SSL Version : SSLv2
+  Low Strength Ciphers (<= 64-bit key)
+      DES-CBC-MD5                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=MD5    
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+      DES-CBC3-MD5                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=MD5    
+
+  High Strength Ciphers (>= 112-bit key)
+      RC2-CBC-MD5                  Kx=RSA         Au=RSA      Enc=RC2-CBC(128)         Mac=MD5    
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"22227","","","None","10.10.20.100","tcp","1099","RMI Registry Detection","An RMI registry is listening on the remote host.","The remote host is running an RMI registry, which acts as a bootstrap
+naming service for registering and retrieving remote objects with
+simple names in the Java Remote Method Invocation (RMI) system.","n/a","http://docs.oracle.com/javase/1.5.0/docs/guide/rmi/spec/rmiTOC.html
+http://www.nessus.org/u?eb68319f",""
+"22964","","","None","10.10.20.100","tcp","21","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An FTP server is running on this port."
+"22964","","","None","10.10.20.100","tcp","22","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An SSH server is running on this port."
+"22964","","","None","10.10.20.100","tcp","23","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A telnet server is running on this port."
+"22964","","","None","10.10.20.100","tcp","25","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An SMTP server is running on this port."
+"22964","","","None","10.10.20.100","tcp","80","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A web server is running on this port."
+"22964","","","None","10.10.20.100","tcp","1524","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A shell server (Metasploitable) is running on this port."
+"22964","","","None","10.10.20.100","tcp","2121","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An FTP server is running on this port."
+"22964","","","None","10.10.20.100","tcp","5900","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","A vnc server is running on this port."
+"22964","","","None","10.10.20.100","tcp","6667","Service Detection","The remote service could be identified.","Nessus was able to identify the remote service by its banner or by
+looking at the error message it sends when it receives an HTTP
+request.","n/a","","An IRC server is running on this port."
+"24260","","","None","10.10.20.100","tcp","80","HyperText Transfer Protocol (HTTP) Information","Some information about the remote HTTP configuration can be extracted.","This test gives some information about the remote HTTP protocol - the
+version used, whether HTTP Keep-Alive and HTTP pipelining are enabled,
+etc... 
+
+This test is informational only and does not denote any security
+problem.","n/a","","
+Protocol version : HTTP/1.1
+SSL : no
+Keep-Alive : yes
+Options allowed : (Not implemented)
+Headers :
+
+  Date: Wed, 24 May 2017 21:08:10 GMT
+  Server: Apache/2.2.8 (Ubuntu) DAV/2
+  X-Powered-By: PHP/5.2.4-2ubuntu5.10
+  Content-Length: 891
+  Keep-Alive: timeout=15, max=100
+  Connection: Keep-Alive
+  Content-Type: text/html
+  
+"
+"25220","","","None","10.10.20.100","tcp","0","TCP/IP Timestamps Supported","The remote service implements TCP timestamps.","The remote host implements TCP timestamps, as defined by RFC1323.  A
+side effect of this feature is that the uptime of the remote host can
+sometimes be computed.","n/a","http://www.ietf.org/rfc/rfc1323.txt",""
+"25240","","","None","10.10.20.100","tcp","445","Samba Server Detection","An SMB server is running on the remote host.","The remote host is running Samba, a CIFS/SMB server for Linux and
+Unix.","n/a","http://www.samba.org/",""
+"26024","","","None","10.10.20.100","tcp","5432","PostgreSQL Server Detection","A database service is listening on the remote host.","The remote service is a PostgreSQL database server, or a derivative
+such as EnterpriseDB.","Limit incoming traffic to this port if desired.","http://www.postgresql.org/",""
+"26928","","4.3","Medium","10.10.20.100","tcp","25","SSL Weak Cipher Suites Supported","The remote service supports the use of weak SSL ciphers.","The remote host supports the use of SSL ciphers that offer weak
+encryption. 
+
+Note: This is considerably easier to exploit if the attacker is on the
+same physical network.","Reconfigure the affected application, if possible to avoid the use of
+weak ciphers.","http://www.openssl.org/docs/apps/ciphers.html","
+Here is the list of weak SSL ciphers supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      DES-CBC-MD5                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=MD5    
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+    TLSv1
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EDH-RSA-DES-CBC-SHA          Kx=DH          Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      ADH-DES-CBC-SHA              Kx=DH          Au=None     Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-DES-CBC-SHA              Kx=RSA(512)    Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+      DES-CBC-SHA                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"31705","CVE-2007-1858","2.6","Low","10.10.20.100","tcp","25","SSL Anonymous Cipher Suites Supported","The remote service supports the use of anonymous SSL ciphers.","The remote host supports the use of anonymous SSL ciphers.  While this
+enables an administrator to set up a service that encrypts traffic
+without having to generate and configure SSL certificates, it offers
+no way to verify the remote host's identity and renders the service
+vulnerable to a man-in-the-middle attack.
+
+Note: This is considerably easier to exploit if the attacker is on the
+same physical network.","Reconfigure the affected application if possible to avoid use of weak
+ciphers.","http://www.openssl.org/docs/apps/ciphers.html","
+Here is the list of SSL anonymous ciphers supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    TLSv1
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      ADH-DES-CBC-SHA              Kx=DH          Au=None     Enc=DES-CBC(56)          Mac=SHA1   
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    TLSv1
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+
+    TLSv1
+      ADH-AES128-SHA               Kx=DH          Au=None     Enc=AES-CBC(128)         Mac=SHA1   
+      ADH-AES256-SHA               Kx=DH          Au=None     Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-RC4-MD5                  Kx=DH          Au=None     Enc=RC4(128)             Mac=MD5    
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"32314","CVE-2008-0166","10.0","Critical","10.10.20.100","tcp","22","Debian OpenSSH/OpenSSL Package Random Number Generator Weakness","The remote SSH host keys are weak.","The remote SSH host key has been generated on a Debian 
+or Ubuntu system which contains a bug in the random number
+generator of its OpenSSL library.
+
+The problem is due to a Debian packager removing nearly all
+sources of entropy in the remote version of OpenSSL.
+
+An attacker can easily obtain the private part of the remote
+key and use this to set up decipher the remote session  or
+set up a man in the middle attack.","Consider all cryptographic material generated on the remote host
+to be guessable. In particuliar, all SSH, SSL and OpenVPN key
+material should be re-generated.","http://www.nessus.org/u?5d01bdab
+http://www.nessus.org/u?f14f4224",""
+"32321","CVE-2008-0166","10.0","Critical","10.10.20.100","tcp","25","Debian OpenSSH/OpenSSL Package Random Number Generator Weakness (SSL check)","The remote SSL certificate uses a weak key.","The remote x509 certificate on the remote SSL server has been generated
+on a Debian or Ubuntu system which contains a bug in the random number
+generator of its OpenSSL library. 
+
+The problem is due to a Debian packager removing nearly all sources of
+entropy in the remote version of OpenSSL. 
+
+An attacker can easily obtain the private part of the remote key and use
+this to decipher the remote session or set up a man in the middle
+attack.","Consider all cryptographic material generated on the remote host to be
+guessable.  In particuliar, all SSH, SSL and OpenVPN key material should
+be re-generated.","http://www.nessus.org/u?5d01bdab
+http://www.nessus.org/u?f14f4224",""
+"33850","","10.0","Critical","10.10.20.100","tcp","0","Unix Operating System Unsupported Version Detection","The operating system running on the remote host is no longer
+supported.","According to its self-reported version number, the Unix operating
+system running on the remote host is no longer supported.
+
+Lack of support implies that no new security patches for the product
+will be released by the vendor. As a result, it is likely to contain
+security vulnerabilities.","Upgrade to a version of the Unix operating system that is currently
+supported.","","
+Ubuntu 8.04 support ended on 2011-05-12 (Desktop) / 2013-05-09 (Server).
+Upgrade to Ubuntu 16.04.
+
+For more information, see : https://wiki.ubuntu.com/Releases
+
+"
+"35371","","","None","10.10.20.100","udp","53","DNS Server hostname.bind Map Hostname Disclosure","The DNS server discloses the remote host name.","It is possible to learn the remote host name by querying the remote
+DNS server for 'hostname.bind' in the CHAOS domain.","It may be possible to disable this feature.  Consult the vendor's
+documentation for more information.","","
+The remote host name is :
+
+metasploitable
+"
+"39519","","","None","10.10.20.100","tcp","2121","Backported Security Patch Detection (FTP)","Security patches are backported.","Security patches may have been 'backported' to the remote FTP server
+without changing its version number. 
+
+Banner-based checks have been disabled to avoid false positives. 
+
+Note that this test is informational only and does not denote any
+security problem.","n/a","https://access.redhat.com/security/updates/backporting/?sc_cid=3093","
+Give Nessus credentials to perform local checks.
+"
+"39520","","","None","10.10.20.100","tcp","22","Backported Security Patch Detection (SSH)","Security patches are backported.","Security patches may have been 'backported' to the remote SSH server
+without changing its version number. 
+
+Banner-based checks have been disabled to avoid false positives. 
+
+Note that this test is informational only and does not denote any
+security problem.","n/a","https://access.redhat.com/security/updates/backporting/?sc_cid=3093","
+Give Nessus credentials to perform local checks.
+"
+"39521","","","None","10.10.20.100","tcp","80","Backported Security Patch Detection (WWW)","Security patches are backported.","Security patches may have been 'backported' to the remote HTTP server
+without changing its version number.
+
+Banner-based checks have been disabled to avoid false positives.
+
+Note that this test is informational only and does not denote any
+security problem.","n/a","https://access.redhat.com/security/updates/backporting/?sc_cid=3093","
+Give Nessus credentials to perform local checks.
+"
+"42088","","","None","10.10.20.100","tcp","25","SMTP Service STARTTLS Command Support","The remote mail service supports encrypting traffic.","The remote SMTP service supports the use of the 'STARTTLS' command to
+switch from a cleartext to an encrypted communications channel.","n/a","http://en.wikipedia.org/wiki/STARTTLS
+http://tools.ietf.org/html/rfc2487","
+Here is the SMTP service's SSL certificate that Nessus was able to
+collect after sending a 'STARTTLS' command :
+
+------------------------------ snip ------------------------------
+Subject Name: 
+
+Country: XX
+State/Province: There is no such thing outside US
+Locality: Everywhere
+Organization: OCOSA
+Organization Unit: Office for Complication of Otherwise Simple Affairs
+Common Name: ubuntu804-base.localdomain
+Email Address: root@ubuntu804-base.localdomain
+
+Issuer Name: 
+
+Country: XX
+State/Province: There is no such thing outside US
+Locality: Everywhere
+Organization: OCOSA
+Organization Unit: Office for Complication of Otherwise Simple Affairs
+Common Name: ubuntu804-base.localdomain
+Email Address: root@ubuntu804-base.localdomain
+
+Serial Number: 00 FA F9 3A 4C 7F B6 B9 CC 
+
+Version: 1
+
+Signature Algorithm: SHA-1 With RSA Encryption
+
+Not Valid Before: Mar 17 14:07:45 2010 GMT
+Not Valid After: Apr 16 14:07:45 2010 GMT
+
+Public Key Info: 
+
+Algorithm: RSA Encryption
+Key Length: 1024 bits
+Public Key: 00 D6 B4 13 36 33 9A 95 71 7B 1B DE 7C 83 75 DA 71 B1 3C A9 
+            7F FE AD 64 1B 77 E9 4F AE BE CA D4 F8 CB EF AE BB 43 79 24 
+            73 FF 3C E5 9E 3B 6D FC C8 B1 AC FA 4C 4D 5E 9B 4C 99 54 0B 
+            D7 A8 4A 50 BA A9 DE 1D 1F F4 E4 6B 02 A3 F4 6B 45 CD 4C AF 
+            8D 89 62 33 8F 65 BB 36 61 9F C4 2C 73 C1 4E 2E A0 A8 14 4E 
+            98 70 46 61 BB D1 B9 31 DF 8C 99 EE 75 6B 79 3C 40 A0 AE 97 
+            00 90 9D DC 99 0D 33 A4 B5 
+Exponent: 01 00 01 
+
+Signature Length: 128 bytes / 1024 bits
+Signature: 00 92 A4 B4 B8 14 55 63 25 51 4A 0B C3 2A 22 CF 3A F8 17 6A 
+           0C CF 66 AA A7 65 2F 48 6D CD E3 3E 5C 9F 77 6C D4 44 54 1F 
+           1E 84 4F 8E D4 8D DD AC 2D 88 09 21 A8 DA 56 2C A9 05 3C 49 
+           68 35 19 75 0C DA 53 23 88 88 19 2D 74 26 C1 22 65 EE 11 68 
+           83 6A 53 4A 9C 27 CB A0 B4 E9 8D 29 0C B2 3C 18 5C 67 CC 53 
+           A6 1E 30 D0 AA 26 7B 1E AE 40 B9 29 01 6C 2E BC A2 19 94 7C 
+           15 6E 8D 30 38 F6 CA 2E 75 
+
+------------------------------ snip ------------------------------
+"
+"42256","","5.0","Medium","10.10.20.100","tcp","2049","NFS Shares World Readable","The remote NFS server exports world-readable shares.","The remote NFS server is exporting one or more shares without
+restricting access (based on hostname, IP, or IP range).","Place the appropriate restrictions on all NFS shares.","http://www.tldp.org/HOWTO/NFS-HOWTO/security.html","
+The following shares have no access restrictions :
+
+  / *
+"
+"42263","","5.8","Medium","10.10.20.100","tcp","23","Unencrypted Telnet Server","The remote Telnet server transmits traffic in cleartext.","The remote host is running a Telnet server over an unencrypted
+channel.
+
+Using Telnet over an unencrypted channel is not recommended as logins,
+passwords, and commands are transferred in cleartext. This allows a 
+remote, man-in-the-middle attacker to eavesdrop on a Telnet session to
+obtain credentials or other sensitive information and to modify
+traffic exchanged between a client and server.
+
+SSH is preferred over Telnet since it protects credentials from
+eavesdropping and can tunnel additional data streams such as an X11
+session.","Disable the Telnet service and use SSH instead.","","
+Nessus collected the following banner from the remote Telnet server :
+
+------------------------------ snip ------------------------------
+                _                  _       _ _        _     _      ____  
+ _ __ ___   ___| |_ __ _ ___ _ __ | | ___ (_) |_ __ _| |__ | | ___|___ \ 
+| '_ ` _ \ / _ \ __/ _` / __| '_ \| |/ _ \| | __/ _` | '_ \| |/ _ \ __) |
+| | | | | |  __/ || (_| \__ \ |_) | | (_) | | || (_| | |_) | |  __// __/ 
+|_| |_| |_|\___|\__\__,_|___/ .__/|_|\___/|_|\__\__,_|_.__/|_|\___|_____|
+                            |_|                                          
+
+
+Warning: Never expose this VM to an untrusted network!
+
+Contact: msfdev[at]metasploit.com
+
+Login with msfadmin/msfadmin to get started
+
+
+metasploitable login: 
+------------------------------ snip ------------------------------
+"
+"42873","","5.0","Medium","10.10.20.100","tcp","25","SSL Medium Strength Cipher Suites Supported","The remote service supports the use of medium strength SSL ciphers.","The remote host supports the use of SSL ciphers that offer medium
+strength encryption. Nessus regards medium strength as any encryption
+that uses key lengths at least 64 bits and less than 112 bits, or else
+that uses the 3DES encryption suite.
+
+Note that it is considerably easier to circumvent medium strength
+encryption if the attacker is on the same physical network.","Reconfigure the affected application if possible to avoid use of
+medium strength ciphers.","https://www.openssl.org/blog/blog/2016/08/24/sweet32/","
+Here is the list of medium strength SSL ciphers supported by the remote server :
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    SSLv2
+      DES-CBC3-MD5                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=MD5    
+
+    TLSv1
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"45410","","","None","10.10.20.100","tcp","25","SSL Certificate commonName Mismatch","The SSL certificate commonName does not match the host name.","This service presents an SSL certificate for which the 'commonName'
+(CN) does not match the host name on which the service listens.","If the machine has several names, make sure that users connect to the
+service through the DNS host name that matches the common name in the
+certificate.","","
+The host name known by Nessus is :
+
+  metasploitable
+
+The Common Name in the certificate is :
+
+  ubuntu804-base.localdomain
+"
+"45411","","5.0","Medium","10.10.20.100","tcp","25","SSL Certificate with Wrong Hostname","The SSL certificate for this service is for a different host.","The commonName (CN) of the SSL certificate presented on this service
+is for a different machine.","Purchase or generate a proper certificate for this service.","","
+The identities known by Nessus are :
+
+  10.10.20.100
+  metasploitable
+  10.10.20.100
+
+The Common Name in the certificate is :
+
+  ubuntu804-base.localdomain
+"
+"45590","","","None","10.10.20.100","tcp","0","Common Platform Enumeration (CPE)","It is possible to enumerate CPE names that matched on the remote
+system.","By using information obtained from a Nessus scan, this plugin reports
+CPE (Common Platform Enumeration) matches for various hardware and
+software products found on a host. 
+
+Note that if an official CPE is not available for the product, this
+plugin computes the best possible CPE based on the information
+available from the scan.","n/a","http://cpe.mitre.org/
+https://nvd.nist.gov/cpe.cfm","
+The remote operating system matched the following CPE : 
+
+  cpe:/o:canonical:ubuntu_linux:8.04
+
+Following application CPE's matched on the remote system :
+
+  cpe:/a:openbsd:openssh:4.7 -> OpenBSD OpenSSH 4.7
+  cpe:/a:samba:samba:3.0.20 -> Samba 3.0.20
+  cpe:/a:apache:http_server:2.2.8 -> Apache Software Foundation Apache HTTP Server 2.2.8
+  cpe:/a:php:php:5.2.4 -> PHP 5.2.4
+  cpe:/a:isc:bind:9.4.
+"
+"48243","","","None","10.10.20.100","tcp","80","PHP Version","It is possible to obtain the version number of the remote PHP install.","This plugin attempts to determine the version of PHP available on the
+remote web server.","n/a","","
+Nessus was able to identify the following PHP version information :
+
+  Version : 5.2.4-2ubuntu5.10
+  Source  : X-Powered-By: PHP/5.2.4-2ubuntu5.10
+"
+"50845","","","None","10.10.20.100","tcp","25","OpenSSL Detection","The remote service appears to use OpenSSL to encrypt traffic.","Based on its response to a TLS request with a specially crafted
+server name extension, it seems that the remote service is using the
+OpenSSL library to encrypt traffic.
+
+Note that this plugin can only detect OpenSSL implementations that
+have enabled support for TLS extensions (RFC 4366).","n/a","http://www.openssl.org",""
+"51192","","6.4","Medium","10.10.20.100","tcp","25","SSL Certificate Cannot Be Trusted","The SSL certificate for this service cannot be trusted.","The server's X.509 certificate cannot be trusted. This situation can
+occur in three different ways, in which the chain of trust can be
+broken, as stated below :
+
+  - First, the top of the certificate chain sent by the
+    server might not be descended from a known public
+    certificate authority. This can occur either when the
+    top of the chain is an unrecognized, self-signed
+    certificate, or when intermediate certificates are
+    missing that would connect the top of the certificate
+    chain to a known public certificate authority.
+
+  - Second, the certificate chain may contain a certificate
+    that is not valid at the time of the scan. This can
+    occur either when the scan occurs before one of the
+    certificate's 'notBefore' dates, or after one of the
+    certificate's 'notAfter' dates.
+
+  - Third, the certificate chain may contain a signature
+    that either didn't match the certificate's information
+    or could not be verified. Bad signatures can be fixed by
+    getting the certificate with the bad signature to be
+    re-signed by its issuer. Signatures that could not be
+    verified are the result of the certificate's issuer
+    using a signing algorithm that Nessus either does not
+    support or does not recognize.
+
+If the remote host is a public host in production, any break in the
+chain makes it more difficult for users to verify the authenticity and 
+identity of the web server. This could make it easier to carry out 
+man-in-the-middle attacks against the remote host.","Purchase or generate a proper certificate for this service.","http://www.itu.int/rec/T-REC-X.509/en
+https://en.wikipedia.org/wiki/X.509","
+The following certificate was part of the certificate chain
+sent by the remote host, but it has expired :
+
+|-Subject   : C=XX/ST=There is no such thing outside US/L=Everywhere/O=OCOSA/OU=Office for Complication of Otherwise Simple Affairs/CN=ubuntu804-base.localdomain/E=root@ubuntu804-base.localdomain
+|-Not After : Apr 16 14:07:45 2010 GMT
+
+The following certificate was at the top of the certificate
+chain sent by the remote host, but it is signed by an unknown
+certificate authority :
+
+|-Subject : C=XX/ST=There is no such thing outside US/L=Everywhere/O=OCOSA/OU=Office for Complication of Otherwise Simple Affairs/CN=ubuntu804-base.localdomain/E=root@ubuntu804-base.localdomain
+|-Issuer  : C=XX/ST=There is no such thing outside US/L=Everywhere/O=OCOSA/OU=Office for Complication of Otherwise Simple Affairs/CN=ubuntu804-base.localdomain/E=root@ubuntu804-base.localdomain
+"
+"51891","","","None","10.10.20.100","tcp","25","SSL Session Resume Supported","The remote host allows resuming SSL sessions.","This script detects whether a host allows resuming SSL sessions by
+performing a full SSL handshake to receive a session ID, and then
+reconnecting with the previously used session ID.  If the server
+accepts the session ID in the second connection, the server maintains
+a cache of sessions that can be resumed.","n/a","","
+This port supports resuming SSLv3 sessions.
+"
+"51988","","10.0","Critical","10.10.20.100","tcp","1524","Rogue Shell Backdoor Detection","The remote host may have been compromised.","A shell is listening on the remote port without any authentication
+being required. An attacker may use it by connecting to the remote
+port and sending commands directly.","Verify if the remote host has been compromised, and reinstall the
+system if necessary.","","
+Nessus was able to execute the command ""id"" using the
+following request :
+
+
+
+This produced the following truncated output (limited to 10 lines) :
+------------------------------ snip ------------------------------
+root@metasploitable:/# uid=0(root) gid=0(root) groups=0(root)
+root@metasploitable:/#
+
+------------------------------ snip ------------------------------
+"
+"52611","CVE-2011-0411","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52611","CVE-2011-1430","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52611","CVE-2011-1431","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52611","CVE-2011-1432","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52611","CVE-2011-1506","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52611","CVE-2011-2165","4.0","Medium","10.10.20.100","tcp","25","SMTP Service STARTTLS Plaintext Command Injection","The remote mail service allows plaintext command injection while 
+negotiating an encrypted communications channel.","The remote SMTP service contains a software flaw in its STARTTLS
+implementation that could allow a remote, unauthenticated attacker to
+inject commands during the plaintext protocol phase that will be
+executed during the ciphertext protocol phase. 
+
+Successful exploitation could allow an attacker to steal a victim's
+email or associated SASL (Simple Authentication and Security Layer)
+credentials.","Contact the vendor to see if an update is available.","http://tools.ietf.org/html/rfc2487
+http://www.securityfocus.com/archive/1/516901/30/0/threaded","
+Nessus sent the following two commands in a single packet :
+
+  STARTTLS\r\nRSET\r\n
+
+And the server sent the following two responses :
+
+  220 2.0.0 Ready to start TLS
+  250 2.0.0 Ok
+"
+"52703","","","None","10.10.20.100","tcp","21","vsftpd Detection","An FTP server is listening on the remote port.","The remote host is running vsftpd, an FTP server for UNIX-like
+systems written in C.","n/a","http://vsftpd.beasts.org/","
+  Source  : 220 (vsFTPd 2.3.4)
+  Version : 2.3.4
+"
+"53335","","","None","10.10.20.100","tcp","111","RPC portmapper (TCP)","An ONC RPC portmapper is running on the remote host.","The RPC portmapper is running on this port. 
+
+The portmapper allows someone to get the port number of each RPC
+service running on the remote host by sending either multiple lookup
+requests or a DUMP request.","n/a","",""
+"54615","","","None","10.10.20.100","tcp","0","Device Type","It is possible to guess the remote device type.","Based on the remote operating system, it is possible to determine
+what the remote system type is (eg: a printer, router, general-purpose
+computer, etc).","n/a","","Remote device type : general-purpose
+Confidence level : 95
+"
+"56984","","","None","10.10.20.100","tcp","25","SSL / TLS Versions Supported","The remote service encrypts communications.","This plugin detects which SSL and TLS versions are supported by the
+remote service for encrypting communications.","n/a","","
+This port supports SSLv2/SSLv3/TLSv1.0.
+"
+"57041","","","None","10.10.20.100","tcp","25","SSL Perfect Forward Secrecy Cipher Suites Supported","The remote service supports the use of SSL Perfect Forward Secrecy
+ciphers, which maintain confidentiality even if the key is stolen.","The remote host supports the use of SSL ciphers that offer Perfect
+Forward Secrecy (PFS) encryption.  These cipher suites ensure that
+recorded SSL traffic cannot be broken at a future date if the server's
+private key is compromised.","n/a","http://www.openssl.org/docs/apps/ciphers.html
+http://en.wikipedia.org/wiki/Diffie-Hellman_key_exchange
+http://en.wikipedia.org/wiki/Perfect_forward_secrecy","
+Here is the list of SSL PFS ciphers supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    TLSv1
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EDH-RSA-DES-CBC-SHA          Kx=DH          Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    TLSv1
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+
+    TLSv1
+      DHE-RSA-AES128-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      DHE-RSA-AES256-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"57582","","6.4","Medium","10.10.20.100","tcp","25","SSL Self-Signed Certificate","The SSL certificate chain for this service ends in an unrecognized
+self-signed certificate.","The X.509 certificate chain for this service is not signed by a
+recognized certificate authority.  If the remote host is a public host
+in production, this nullifies the use of SSL as anyone could establish
+a man-in-the-middle attack against the remote host. 
+
+Note that this plugin does not check for certificate chains that end
+in a certificate that is not self-signed, but is signed by an
+unrecognized certificate authority.","Purchase or generate a proper certificate for this service.","","
+The following certificate was found at the top of the certificate
+chain sent by the remote host, but is self-signed and was not
+found in the list of known certificate authorities :
+
+|-Subject : C=XX/ST=There is no such thing outside US/L=Everywhere/O=OCOSA/OU=Office for Complication of Otherwise Simple Affairs/CN=ubuntu804-base.localdomain/E=root@ubuntu804-base.localdomain
+"
+"57608","","5.0","Medium","10.10.20.100","tcp","445","SMB Signing Disabled","Signing is not required on the remote SMB server.","Signing is not required on the remote SMB server. An unauthenticated,
+remote attacker can exploit this to conduct man-in-the-middle attacks
+against the SMB server.","Enforce message signing in the host's configuration. On Windows, this
+is found in the policy setting 'Microsoft network server: Digitally
+sign communications (always)'. On Samba, the setting is called 'server
+signing'. See the 'see also' links for further details.","https://support.microsoft.com/en-us/kb/887429
+http://technet.microsoft.com/en-us/library/cc731957.aspx
+http://www.nessus.org/u?74b80723
+http://www.samba.org/samba/docs/man/manpages-3/smb.conf.5.html
+http://www.nessus.org/u?a3cac4ea",""
+"57792","CVE-2012-0053","4.3","Medium","10.10.20.100","tcp","80","Apache HTTP Server httpOnly Cookie Information Disclosure","The web server running on the remote host is affected by an
+information disclosure vulnerability.","The version of Apache HTTP Server running on the remote host is
+affected by an information disclosure vulnerability. Sending a request
+with HTTP headers long enough to exceed the server limit causes the
+web server to respond with an HTTP 400. By default, the offending HTTP
+header and value are displayed on the 400 error page. When used in
+conjunction with other attacks (e.g., cross-site scripting), this
+could result in the compromise of httpOnly cookies.","Upgrade to Apache version 2.0.65 / 2.2.22 or later.","http://fd.the-wildcat.de/apache_e36a9cf46c.php
+http://www.nessus.org/u?e005199a
+http://httpd.apache.org/security/vulnerabilities_22.html
+http://svn.apache.org/viewvc?view=revision&revision=1235454","
+Nessus verified this by sending a request with a long Cookie header :
+
+GET / HTTP/1.1
+Host: 10.10.20.100
+Accept-Charset: iso-8859-1,utf-8;q=0.9,*;q=0.1
+Accept-Language: en
+Connection: Close
+Cookie: z9=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)
+Pragma: no-cache
+Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*
+
+Which caused the Cookie header to be displayed in the default error page
+(the response shown below has been truncated) :
+
+<!DOCTYPE HTML PUBLIC ""-//IETF//DTD HTML 2.0//EN"">
+<html><head>
+<title>400 Bad Request</title>
+</head><body>
+<h1>Bad Request</h1>
+<p>Your browser sent a request that this server could not understand.<br />
+Size of a request header field exceeds server limit.<br />
+<pre>
+Cookie: z9=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...
+
+"
+"61708","","10.0","Critical","10.10.20.100","tcp","5900","VNC Server 'password' Password","A VNC server running on the remote host is secured with a weak
+password.","The VNC server running on the remote host is secured with a weak
+password.  Nessus was able to login using VNC authentication and a
+password of 'password'.  A remote, unauthenticated attacker could
+exploit this to take control of the system.","Secure the VNC service with a strong password.","","
+Nessus logged in using a password of ""password"".
+"
+"62563","","","None","10.10.20.100","tcp","25","SSL Compression Methods Supported","The remote service supports one or more compression methods for SSL
+connections.","This script detects which compression methods are supported by the
+remote service for SSL connections.","n/a","http://www.iana.org/assignments/comp-meth-ids/comp-meth-ids.xml
+http://tools.ietf.org/html/rfc3749
+http://tools.ietf.org/html/rfc3943
+http://tools.ietf.org/html/rfc5246","
+Nessus was able to confirm that the following compression method is 
+supported by the target :
+
+  DEFLATE (0x01)
+"
+"65792","","","None","10.10.20.100","tcp","5900","VNC Server Unencrypted Communication Detection","A VNC server with one or more unencrypted 'security-types' is running
+on the remote host.","This script checks the remote VNC server protocol version and the
+available 'security types' to determine if any unencrypted
+'security-types' are in use or available.","n/a","","
+The remote VNC server supports the following security type
+which does not perform full data communication encryption :
+
+  2 (VNC authentication)
+"
+"65821","CVE-2013-2566","2.6","Low","10.10.20.100","tcp","25","SSL RC4 Cipher Suites Supported (Bar Mitzvah)","The remote service supports the use of the RC4 cipher.","The remote host supports the use of RC4 in one or more cipher suites.
+The RC4 cipher is flawed in its generation of a pseudo-random stream
+of bytes so that a wide variety of small biases are introduced into
+the stream, decreasing its randomness.
+
+If plaintext is repeatedly encrypted (e.g., HTTP cookies), and an
+attacker is able to obtain many (i.e., tens of millions) ciphertexts,
+the attacker may be able to derive the plaintext.","Reconfigure the affected application, if possible, to avoid use of RC4
+ciphers. Consider using TLS 1.2 with AES-GCM suites subject to browser
+and web server support.","http://www.nessus.org/u?217a3666
+http://cr.yp.to/talks/2013.03.12/slides.pdf
+http://www.isg.rhul.ac.uk/tls/
+http://www.imperva.com/docs/HII_Attacking_SSL_when_using_RC4.pdf","
+List of RC4 cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+    TLSv1
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+
+    TLSv1
+      ADH-RC4-MD5                  Kx=DH          Au=None     Enc=RC4(128)             Mac=MD5    
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+      RC4-SHA                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"65821","CVE-2015-2808","2.6","Low","10.10.20.100","tcp","25","SSL RC4 Cipher Suites Supported (Bar Mitzvah)","The remote service supports the use of the RC4 cipher.","The remote host supports the use of RC4 in one or more cipher suites.
+The RC4 cipher is flawed in its generation of a pseudo-random stream
+of bytes so that a wide variety of small biases are introduced into
+the stream, decreasing its randomness.
+
+If plaintext is repeatedly encrypted (e.g., HTTP cookies), and an
+attacker is able to obtain many (i.e., tens of millions) ciphertexts,
+the attacker may be able to derive the plaintext.","Reconfigure the affected application, if possible, to avoid use of RC4
+ciphers. Consider using TLS 1.2 with AES-GCM suites subject to browser
+and web server support.","http://www.nessus.org/u?217a3666
+http://cr.yp.to/talks/2013.03.12/slides.pdf
+http://www.isg.rhul.ac.uk/tls/
+http://www.imperva.com/docs/HII_Attacking_SSL_when_using_RC4.pdf","
+List of RC4 cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+    TLSv1
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+
+    TLSv1
+      ADH-RC4-MD5                  Kx=DH          Au=None     Enc=RC4(128)             Mac=MD5    
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+      RC4-SHA                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"66334","","","None","10.10.20.100","tcp","0","Patch Report","The remote host is missing several patches.","The remote host is missing one or more security patches. This plugin
+lists the newest version of each patch to install to make sure the
+remote host is up-to-date.","Install the patches listed below.","","
+
+. You need to take the following 2 actions :
+
+[ Apache HTTP Server httpOnly Cookie Information Disclosure (57792) ]
+
++ Action to take : Upgrade to Apache version 2.0.65 / 2.2.22 or later.
+
+
+[ Samba Badlock Vulnerability (90509) ]
+
++ Action to take : Upgrade to Samba version 4.2.11 / 4.3.8 / 4.4.2 or later.
+
+
+"
+"70544","","","None","10.10.20.100","tcp","25","SSL Cipher Block Chaining Cipher Suites Supported","The remote service supports the use of SSL Cipher Block Chaining
+ciphers, which combine previous blocks with subsequent ones.","The remote host supports the use of SSL ciphers that operate in Cipher
+Block Chaining (CBC) mode.  These cipher suites offer additional
+security over Electronic Codebook (ECB) mode, but have the potential to
+leak information if used improperly.","n/a","http://www.openssl.org/docs/apps/ciphers.html
+http://www.nessus.org/u?cc4a822a
+http://www.openssl.org/~bodo/tls-cbc.txt","
+Here is the list of SSL CBC ciphers supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      DES-CBC-MD5                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=MD5    
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+
+    TLSv1
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EDH-RSA-DES-CBC-SHA          Kx=DH          Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      ADH-DES-CBC-SHA              Kx=DH          Au=None     Enc=DES-CBC(56)          Mac=SHA1   
+      EXP-DES-CBC-SHA              Kx=RSA(512)    Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      DES-CBC-SHA                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=SHA1   
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    SSLv2
+      DES-CBC3-MD5                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=MD5    
+
+    TLSv1
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC2-CBC-MD5                  Kx=RSA         Au=RSA      Enc=RC2-CBC(128)         Mac=MD5    
+
+    TLSv1
+      DHE-RSA-AES128-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      DHE-RSA-AES256-SHA           Kx=DH          Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+      ADH-AES128-SHA               Kx=DH          Au=None     Enc=AES-CBC(128)         Mac=SHA1   
+      ADH-AES256-SHA               Kx=DH          Au=None     Enc=AES-CBC(256)         Mac=SHA1   
+      AES128-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(128)         Mac=SHA1   
+      AES256-SHA                   Kx=RSA         Au=RSA      Enc=AES-CBC(256)         Mac=SHA1   
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"70657","","","None","10.10.20.100","tcp","22","SSH Algorithms and Languages Supported","An SSH server is listening on this port.","This script detects which algorithms and languages are supported by
+the remote service for encrypting communications.","n/a","","
+Nessus negotiated the following encryption algorithm with the server : aes128-cbc
+
+The server supports the following options for kex_algorithms : 
+
+  diffie-hellman-group-exchange-sha1
+  diffie-hellman-group-exchange-sha256
+  diffie-hellman-group1-sha1
+  diffie-hellman-group14-sha1
+
+The server supports the following options for server_host_key_algorithms : 
+
+  ssh-dss
+  ssh-rsa
+
+The server supports the following options for encryption_algorithms_client_to_server : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  arcfour
+  arcfour128
+  arcfour256
+  blowfish-cbc
+  cast128-cbc
+  rijndael-cbc@lysator.liu.se
+
+The server supports the following options for encryption_algorithms_server_to_client : 
+
+  3des-cbc
+  aes128-cbc
+  aes128-ctr
+  aes192-cbc
+  aes192-ctr
+  aes256-cbc
+  aes256-ctr
+  arcfour
+  arcfour128
+  arcfour256
+  blowfish-cbc
+  cast128-cbc
+  rijndael-cbc@lysator.liu.se
+
+The server supports the following options for mac_algorithms_client_to_server : 
+
+  hmac-md5
+  hmac-md5-96
+  hmac-ripemd160
+  hmac-ripemd160@openssh.com
+  hmac-sha1
+  hmac-sha1-96
+  umac-64@openssh.com
+
+The server supports the following options for mac_algorithms_server_to_client : 
+
+  hmac-md5
+  hmac-md5-96
+  hmac-ripemd160
+  hmac-ripemd160@openssh.com
+  hmac-sha1
+  hmac-sha1-96
+  umac-64@openssh.com
+
+The server supports the following options for compression_algorithms_client_to_server : 
+
+  none
+  zlib@openssh.com
+
+The server supports the following options for compression_algorithms_server_to_client : 
+
+  none
+  zlib@openssh.com
+"
+"70658","CVE-2008-5161","2.6","Low","10.10.20.100","tcp","22","SSH Server CBC Mode Ciphers Enabled","The SSH server is configured to use Cipher Block Chaining.","The SSH server is configured to support Cipher Block Chaining (CBC)
+encryption.  This may allow an attacker to recover the plaintext message
+from the ciphertext. 
+
+Note that this plugin only checks for the options of the SSH server and
+does not check for vulnerable software versions.","Contact the vendor or consult product documentation to disable CBC mode
+cipher encryption, and enable CTR or GCM cipher mode encryption.","","
+The following client-to-server Cipher Block Chaining (CBC) algorithms
+are supported : 
+
+  3des-cbc
+  aes128-cbc
+  aes192-cbc
+  aes256-cbc
+  blowfish-cbc
+  cast128-cbc
+  rijndael-cbc@lysator.liu.se
+
+The following server-to-client Cipher Block Chaining (CBC) algorithms
+are supported : 
+
+  3des-cbc
+  aes128-cbc
+  aes192-cbc
+  aes256-cbc
+  blowfish-cbc
+  cast128-cbc
+  rijndael-cbc@lysator.liu.se
+"
+"71049","","2.6","Low","10.10.20.100","tcp","22","SSH Weak MAC Algorithms Enabled","The remote SSH server is configured to allow MD5 and 96-bit MAC
+algorithms.","The remote SSH server is configured to allow either MD5 or 96-bit MAC
+algorithms, both of which are considered weak.
+
+Note that this plugin only checks for the options of the SSH server,
+and it does not check for vulnerable software versions.","Contact the vendor or consult product documentation to disable MD5 and
+96-bit MAC algorithms.","","
+The following client-to-server Message Authentication Code (MAC) algorithms
+are supported : 
+
+  hmac-md5
+  hmac-md5-96
+  hmac-sha1-96
+
+The following server-to-client Message Authentication Code (MAC) algorithms
+are supported : 
+
+  hmac-md5
+  hmac-md5-96
+  hmac-sha1-96
+"
+"72779","","","None","10.10.20.100","tcp","53","DNS Server Version Detection","Nessus was able to obtain version information on the remote DNS
+server.","Nessus was able to obtain version information by sending a special TXT
+record query to the remote host.
+
+Note that this version is not necessarily accurate and could even be
+forged, as some DNS servers send the information based on a
+configuration file.","n/a","","
+DNS server answer for ""version.bind"" (over TCP) :
+
+  9.4.2
+"
+"78479","CVE-2014-3566","4.3","Medium","10.10.20.100","tcp","25","SSLv3 Padding Oracle On Downgraded Legacy Encryption Vulnerability (POODLE)","It is possible to obtain sensitive information from the remote host
+with SSL/TLS-enabled services.","The remote host is affected by a man-in-the-middle (MitM) information
+disclosure vulnerability known as POODLE. The vulnerability is due to
+the way SSL 3.0 handles padding bytes when decrypting messages
+encrypted using block ciphers in cipher block chaining (CBC) mode.
+MitM attackers can decrypt a selected byte of a cipher text in as few
+as 256 tries if they are able to force a victim application to
+repeatedly send the same data over newly created SSL 3.0 connections.
+
+As long as a client and service both support SSLv3, a connection can
+be 'rolled back' to SSLv3, even if TLSv1 or newer is supported by the
+client and service.
+
+The TLS Fallback SCSV mechanism prevents 'version rollback' attacks
+without impacting legacy clients; however, it can only protect
+connections when the client and service support the mechanism. Sites
+that cannot disable SSLv3 immediately should enable this mechanism.
+
+This is a vulnerability in the SSLv3 specification, not in any
+particular SSL implementation. Disabling SSLv3 is the only way to
+completely mitigate the vulnerability.","Disable SSLv3.
+
+Services that must support SSLv3 should enable the TLS Fallback SCSV
+mechanism until SSLv3 can be disabled.","https://www.imperialviolet.org/2014/10/14/poodle.html
+https://www.openssl.org/~bodo/ssl-poodle.pdf
+https://tools.ietf.org/html/draft-ietf-tls-downgrade-scsv-00","
+Nessus determined that the remote server supports SSLv3 with at least one CBC 
+cipher suite, indicating that this server is vulnerable.
+
+It appears that TLSv1 or newer is supported on the server. However, the 
+Fallback SCSV mechanism is not supported, allowing connections to be ""rolled 
+back"" to SSLv3.
+"
+"81606","CVE-2015-0204","5.0","Medium","10.10.20.100","tcp","25","SSL/TLS EXPORT_RSA <= 512-bit Cipher Suites Supported (FREAK)","The remote host supports a set of weak ciphers.","The remote host supports EXPORT_RSA cipher suites with keys less than
+or equal to 512 bits. An attacker can factor a 512-bit RSA modulus in
+a short amount of time.
+
+A man-in-the middle attacker may be able to downgrade the session to
+use EXPORT_RSA cipher suites (e.g. CVE-2015-0204). Thus, it is
+recommended to remove support for weak cipher suites.","Reconfigure the service to remove support for EXPORT_RSA cipher
+suites.","https://www.smacktls.com/#freak
+https://www.openssl.org/news/secadv/20150108.txt
+http://www.nessus.org/u?b78da2c4","
+EXPORT_RSA cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    TLSv1
+      EXP-DES-CBC-SHA              Kx=RSA(512)    Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"83738","CVE-2015-4000","2.6","Low","10.10.20.100","tcp","25","SSL/TLS EXPORT_DHE <= 512-bit Export Cipher Suites Supported (Logjam)","The remote host supports a set of weak ciphers.","The remote host supports EXPORT_DHE cipher suites with keys less than
+or equal to 512 bits. Through cryptanalysis, a third party can find
+the shared secret in a short amount of time.
+
+A man-in-the middle attacker may be able to downgrade the session to
+use EXPORT_DHE cipher suites. Thus, it is recommended to remove
+support for weak cipher suites.","Reconfigure the service to remove support for EXPORT_DHE cipher
+suites.","https://weakdh.org/","
+EXPORT_DHE cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    TLSv1
+      EXP-EDH-RSA-DES-CBC-SHA      Kx=DH(512)     Au=RSA      Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-DES-CBC-SHA          Kx=DH(512)     Au=None     Enc=DES-CBC(40)          Mac=SHA1   export     
+      EXP-ADH-RC4-MD5              Kx=DH(512)     Au=None     Enc=RC4(40)              Mac=MD5    export     
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"83875","CVE-2015-4000","2.6","Low","10.10.20.100","tcp","25","SSL/TLS Diffie-Hellman Modulus <= 1024 Bits (Logjam)","The remote host allows SSL/TLS connections with one or more
+Diffie-Hellman moduli less than or equal to 1024 bits.","The remote host allows SSL/TLS connections with one or more
+Diffie-Hellman moduli less than or equal to 1024 bits. Through
+cryptanalysis, a third party may be able to find the shared secret in
+a short amount of time (depending on modulus size and attacker
+resources). This may allow an attacker to recover the plaintext or
+potentially violate the integrity of connections.","Reconfigure the service to use a unique Diffie-Hellman moduli of 2048
+bits or greater.","http://weakdh.org/","
+Vulnerable connection combinations :
+
+  SSL/TLS version  : TLSv1.0
+  Cipher suite     : TLS1_CK_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA
+  Diffie-Hellman MODP size (bits) : 512
+  Logjam attack difficulty : Easy (could be carried out by individuals)
+
+  SSL/TLS version  : SSLv3
+  Cipher suite     : TLS1_CK_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA
+  Diffie-Hellman MODP size (bits) : 512
+  Logjam attack difficulty : Easy (could be carried out by individuals)
+"
+"84574","","","None","10.10.20.100","tcp","80","Backported Security Patch Detection (PHP)","Security patches have been backported.","Security patches may have been 'backported' to the remote PHP install
+without changing its version number.
+
+Banner-based checks have been disabled to avoid false positives.
+
+Note that this test is informational only and does not denote any
+security problem.","n/a","https://access.redhat.com/security/updates/backporting/?sc_cid=3093","
+Give Nessus credentials to perform local checks.
+"
+"89058","CVE-2016-0800","4.0","Medium","10.10.20.100","tcp","25","SSL DROWN Attack Vulnerability (Decrypting RSA with Obsolete and Weakened eNcryption)","The remote host may be affected by a vulnerability that allows a
+remote attacker to potentially decrypt captured TLS traffic.","The remote host supports SSLv2 and therefore may be affected by a
+vulnerability that allows a cross-protocol Bleichenbacher padding
+oracle attack known as DROWN (Decrypting RSA with Obsolete and
+Weakened eNcryption). This vulnerability exists due to a flaw in the
+Secure Sockets Layer Version 2 (SSLv2) implementation, and it allows
+captured TLS traffic to be decrypted. A man-in-the-middle attacker can
+exploit this to decrypt the TLS connection by utilizing previously
+captured traffic and weak cryptography along with a series of
+specially crafted connections to an SSLv2 server that uses the same
+private key.","Disable SSLv2 and export grade cryptography cipher suites. Ensure that
+private keys are not used anywhere with server software that supports
+SSLv2 connections.","https://drownattack.com/
+https://drownattack.com/drown-attack-paper.pdf","
+The remote host is affected by SSL DROWN and supports the following
+vulnerable cipher suites :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      DES-CBC-MD5                  Kx=RSA         Au=RSA      Enc=DES-CBC(56)          Mac=MD5    
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+      EXP-RC4-MD5                  Kx=RSA(512)    Au=RSA      Enc=RC4(40)              Mac=MD5    export     
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC4-MD5                      Kx=RSA         Au=RSA      Enc=RC4(128)             Mac=MD5    
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"90317","","4.3","Medium","10.10.20.100","tcp","22","SSH Weak Algorithms Supported","The remote SSH server is configured to allow weak encryption
+algorithms or no algorithm at all.","Nessus has detected that the remote SSH server is configured to use
+the Arcfour stream cipher or no cipher at all. RFC 4253 advises
+against using Arcfour due to an issue with weak keys.","Contact the vendor or consult product documentation to remove the weak
+ciphers.","https://tools.ietf.org/html/rfc4253#section-6.3","
+The following weak server-to-client encryption algorithms are supported : 
+
+  arcfour
+  arcfour128
+  arcfour256
+
+The following weak client-to-server encryption algorithms are supported : 
+
+  arcfour
+  arcfour128
+  arcfour256
+"
+"90509","CVE-2016-2118","6.8","Medium","10.10.20.100","tcp","445","Samba Badlock Vulnerability","An SMB server running on the remote host is affected by the Badlock
+vulnerability.","The version of Samba, a CIFS/SMB server for Linux and Unix, running on
+the remote host is affected by a flaw, known as Badlock, that exists
+in the Security Account Manager (SAM) and Local Security
+Authority (Domain Policy) (LSAD) protocols due to improper
+authentication level negotiation over Remote Procedure Call (RPC)
+channels. A man-in-the-middle attacker who is able to able to
+intercept the traffic between a client and a server hosting a SAM
+database can exploit this flaw to force a downgrade of the
+authentication level, which allows the execution of arbitrary Samba
+network calls in the context of the intercepted user, such as viewing
+or modifying sensitive security data in the Active Directory (AD)
+database or disabling critical services.","Upgrade to Samba version 4.2.11 / 4.3.8 / 4.4.2 or later.","http://badlock.org
+https://www.samba.org/samba/security/CVE-2016-2118.html","
+Nessus detected that the Samba Badlock patch has not been applied.
+"
+"94437","CVE-2016-2183","5.0","Medium","10.10.20.100","tcp","25","SSL 64-bit Block Size Cipher Suites Supported (SWEET32)","The remote service supports the use of 64-bit block ciphers.","The remote host supports the use of a block cipher with 64-bit blocks
+in one or more cipher suites. It is, therefore, affected by a
+vulnerability, known as SWEET32, due to the use of weak 64-bit block
+ciphers. A man-in-the-middle attacker who has sufficient resources can
+exploit this vulnerability, via a 'birthday' attack, to detect a
+collision that leaks the XOR between the fixed secret and a known
+plaintext, allowing the disclosure of the secret text, such as secure
+HTTPS cookies, and possibly resulting in the hijacking of an
+authenticated session.
+
+Proof-of-concepts have shown that attackers can recover authentication
+cookies from an HTTPS session in as little as 30 hours.
+
+Note that the ability to send a large number of requests over the
+same TLS connection between the client and server is an important
+requirement for carrying out this attack. If the number of requests
+allowed for a single connection were limited, this would mitigate the
+vulnerability. However, Nessus has not checked for such a mitigation.","Reconfigure the affected application, if possible, to avoid use of all
+64-bit block ciphers. Alternatively, place limitations on the number
+of requests that are allowed to be processed over the same TLS
+connection to mitigate this vulnerability.","https://sweet32.info
+https://www.openssl.org/blog/blog/2016/08/24/sweet32/","
+List of 64-bit block cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+
+    TLSv1
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    TLSv1
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC2-CBC-MD5                  Kx=RSA         Au=RSA      Enc=RC2-CBC(128)         Mac=MD5    
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"94437","CVE-2016-6329","5.0","Medium","10.10.20.100","tcp","25","SSL 64-bit Block Size Cipher Suites Supported (SWEET32)","The remote service supports the use of 64-bit block ciphers.","The remote host supports the use of a block cipher with 64-bit blocks
+in one or more cipher suites. It is, therefore, affected by a
+vulnerability, known as SWEET32, due to the use of weak 64-bit block
+ciphers. A man-in-the-middle attacker who has sufficient resources can
+exploit this vulnerability, via a 'birthday' attack, to detect a
+collision that leaks the XOR between the fixed secret and a known
+plaintext, allowing the disclosure of the secret text, such as secure
+HTTPS cookies, and possibly resulting in the hijacking of an
+authenticated session.
+
+Proof-of-concepts have shown that attackers can recover authentication
+cookies from an HTTPS session in as little as 30 hours.
+
+Note that the ability to send a large number of requests over the
+same TLS connection between the client and server is an important
+requirement for carrying out this attack. If the number of requests
+allowed for a single connection were limited, this would mitigate the
+vulnerability. However, Nessus has not checked for such a mitigation.","Reconfigure the affected application, if possible, to avoid use of all
+64-bit block ciphers. Alternatively, place limitations on the number
+of requests that are allowed to be processed over the same TLS
+connection to mitigate this vulnerability.","https://sweet32.info
+https://www.openssl.org/blog/blog/2016/08/24/sweet32/","
+List of 64-bit block cipher suites supported by the remote server :
+
+  Low Strength Ciphers (<= 64-bit key)
+
+    SSLv2
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+
+    TLSv1
+      EXP-RC2-CBC-MD5              Kx=RSA(512)    Au=RSA      Enc=RC2-CBC(40)          Mac=MD5    export     
+
+  Medium Strength Ciphers (> 64-bit and < 112-bit key, or 3DES)
+
+    TLSv1
+      EDH-RSA-DES-CBC3-SHA         Kx=DH          Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+      ADH-DES-CBC3-SHA             Kx=DH          Au=None     Enc=3DES-CBC(168)        Mac=SHA1   
+      DES-CBC3-SHA                 Kx=RSA         Au=RSA      Enc=3DES-CBC(168)        Mac=SHA1   
+
+  High Strength Ciphers (>= 112-bit key)
+
+    SSLv2
+      RC2-CBC-MD5                  Kx=RSA         Au=RSA      Enc=RC2-CBC(128)         Mac=MD5    
+
+The fields above are :
+
+  {OpenSSL ciphername}
+  Kx={key exchange}
+  Au={authentication}
+  Enc={symmetric encryption method}
+  Mac={message authentication code}
+  {export flag}
+"
+"96982","","","None","10.10.20.100","tcp","445","Server Message Block (SMB) Protocol Version 1 Enabled (uncredentialed check)","The remote Windows host supports the SMBv1 protocol.","The remote Windows host supports Server Message Block Protocol
+version 1 (SMBv1). Microsoft recommends that users discontinue the use
+of SMBv1 due to the lack of security features that were included in
+later SMB versions. Additionally, the Shadow Brokers group reportedly
+has an exploit that affects SMB; however, it is unknown if the exploit
+affects SMBv1 or another version. In response to this, US-CERT
+recommends that users disable SMBv1 per SMB best practices to mitigate
+these potential issues.","Disable SMBv1 according to the vendor instructions in Microsoft
+KB2696547. Additionally, block SMB directly by blocking TCP port 445
+on all network boundary devices. For SMB over the NetBIOS API, block
+TCP ports 137 / 139 and UDP ports 137 / 138 on all network boundary
+devices.","https://blogs.technet.microsoft.com/filecab/2016/09/16/stop-using-smb1/
+https://support.microsoft.com/en-us/kb/2696547
+http://www.nessus.org/u?8dcab5e4
+http://www.nessus.org/u?36fd3072
+http://www.nessus.org/u?4c7e0cf3","
+The remote host supports SMBv1.
+"
