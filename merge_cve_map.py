@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+
+__author__ = "Andrea Fioraldi"
+__copyright__ = "Copyright 2017, Andrea Fioraldi"
+__license__ = "MIT"
+__email__ = "andreafioraldi@gmail.com"
 
 out = open("cve_exploitdb_dict.py", "w")
 
