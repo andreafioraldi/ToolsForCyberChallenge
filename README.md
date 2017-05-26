@@ -15,6 +15,3 @@ Merge the output of various map_exploits instance in a dictionary in 'cve_exploi
 
 ## cve_searchsploit
 Search an exploit in searchsploit using the CVE
-
-## seach_from_nessus
-Seach all exploit that are compatible with a nessus scan in searchsploit
