@@ -1,6 +1,0 @@
-#!/bin/sh
-
-SCRIPT=`realpath -s $0`
-SCRIPTPATH=`dirname $SCRIPT`
-
-python $SCRIPTPATH/search_from_nessus.py $@
