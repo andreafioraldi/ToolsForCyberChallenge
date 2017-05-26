@@ -6,7 +6,7 @@ __license__ = "MIT"
 __email__ = "andreafioraldi@gmail.com"
 
 import cve_exploitdb_dict
-import commands
+import csv
 import sys
 
 if len(sys.argv) < 2:
@@ -16,13 +16,31 @@ if len(sys.argv) < 2:
 
 cve_map = cve_exploitdb_dict.get_cve_map()
 
-cve = sys.argv[1]
+cve = sys.argv[1].upper()
 
 if not cve in cve_map:
-    print "CVE not found."
+    print "ERROR - CVE not found."
     print
-else:
-    cmd = "searchsploit " + cve_map[cve]
-    print commands.getstatusoutput(cmd)[1]
+    sys.exit(1)
 
+files = open("/usr/share/exploitdb/files.csv")
+reader = csv.reader(files)
+reader.next() #skip header
+
+for row in reader:
+    edb, file, description, date, author, platform, type, port = tuple(row)
+    if edb == cve_map[cve]:
+        print "Exploit DB Id: " + edb
+        print "File: /usr/share/exploitdb/platforms/" + file
+        print "Date: " + date
+        print "Author: " + author
+        print "Platform: " + platform
+        print "Type: " + type
+        if port != 0:
+            print "Port: " + port
+        print
+        sys.exit(0)
+print "ERROR - EDB id not found."
+print
+sys.exit(1)
 

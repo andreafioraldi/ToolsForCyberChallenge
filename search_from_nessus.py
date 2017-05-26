@@ -17,11 +17,19 @@ def do_stuff(file):
 	reader.next() #skip header
 	for row in reader:
 		cve = tuple(row)[1]
+		proto = tuple(row)[5]
+		port = tuple(row)[6]
+		name = tuple(row)[7]
 		print "*"*100
-		print cve
+		print "[[" + name + "]]"
+		print
+		print "CVE: " + cve
+		print "Protocol: " + proto
+		print "Port: " + port
+		print 
 		if not cve in get_cve_map:
 			continue
-		cmd = "searchsploit '/" + get_cve_map[cve] + ".'"
+		cmd = "searchsploit '/" + get_cve_map[cve.upper()] + ".'"
 		out = commands.getstatusoutput(cmd)[1].splitlines(True)
 		out = out[4:-2]
 		print "\n".join(out)
