@@ -29,14 +29,14 @@ reader.next() #skip header
 
 for row in reader:
     edb, file, description, date, author, platform, type, port = tuple(row)
-    if edb == cve_map[cve]:
+    if int(edb) == cve_map[cve]:
         print "Exploit DB Id: " + edb
         print "File: /usr/share/exploitdb/platforms/" + file
         print "Date: " + date
         print "Author: " + author
         print "Platform: " + platform
         print "Type: " + type
-        if port != 0:
+        if port != "0":
             print "Port: " + port
         print
         sys.exit(0)
