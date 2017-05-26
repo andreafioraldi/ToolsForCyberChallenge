@@ -22,7 +22,7 @@ def _search_cve_aux(cve):
         if int(edb) == cve_map[cve]:
             found = True
             print "Exploit DB Id: " + edb
-            print "File: /usr/share/exploitdb/platforms/" + file
+            print "File: /usr/share/exploitdb/" + file
             print "Date: " + date
             print "Author: " + author
             print "Platform: " + platform
